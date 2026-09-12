@@ -1,57 +1,57 @@
 ---
 name: swiftui-liquid-glass
-description: Implement and review iOS 26+ SwiftUI Liquid Glass UI. Use when adopting Liquid Glass or checking its correctness, performance, and design fit.
+description: "Implémenter et revoir une UI SwiftUI Liquid Glass iOS 26+. À utiliser pour adopter Liquid Glass ou vérifier sa correction, sa performance et son adéquation design."
 ---
 
 # SwiftUI Liquid Glass
 
-## Overview
-Use this skill to build or review SwiftUI features that fully align with the iOS 26+ Liquid Glass API. Prioritize native APIs (`glassEffect`, `GlassEffectContainer`, glass button styles) and Apple design guidance. Keep usage consistent, interactive where needed, and performance aware.
+## Vue d'ensemble
+Utilise cette skill pour construire ou revoir des fonctionnalités SwiftUI pleinement alignées avec l'API Liquid Glass d'iOS 26+. Priorise les API natives (`glassEffect`, `GlassEffectContainer`, glass button styles) et les guidelines de design Apple. Garde l'usage cohérent, interactif quand nécessaire, et attentif à la performance.
 
-## Workflow Decision Tree
-Choose the path that matches the request:
+## Arbre de décision du workflow
+Choisis le chemin qui correspond à la demande :
 
-### 1) Review an existing feature
-- Inspect where Liquid Glass should be used and where it should not.
-- Verify correct modifier order, shape usage, and container placement.
-- Check for iOS 26+ availability handling and sensible fallbacks.
+### 1) Revoir une fonctionnalité existante
+- Inspecte où Liquid Glass devrait être utilisé et où il ne devrait pas l'être.
+- Vérifie l'ordre correct des modifiers, l'usage des shapes et le placement des containers.
+- Vérifie la gestion de la disponibilité iOS 26+ et l'existence de fallbacks sensés.
 
-### 2) Improve a feature using Liquid Glass
-- Identify target components for glass treatment (surfaces, chips, buttons, cards).
-- Refactor to use `GlassEffectContainer` where multiple glass elements appear.
-- Introduce interactive glass only for tappable or focusable elements.
+### 2) Améliorer une fonctionnalité avec Liquid Glass
+- Identifie les composants cibles pour un traitement glass (surfaces, chips, boutons, cards).
+- Refactore pour utiliser `GlassEffectContainer` là où plusieurs éléments glass apparaissent.
+- Introduis du glass interactif uniquement pour les éléments tappable ou focusable.
 
-### 3) Implement a new feature using Liquid Glass
-- Design the glass surfaces and interactions first (shape, prominence, grouping).
-- Add glass modifiers after layout/appearance modifiers.
-- Add morphing transitions only when the view hierarchy changes with animation.
+### 3) Implémenter une nouvelle fonctionnalité avec Liquid Glass
+- Conçois d'abord les surfaces et interactions glass (shape, prominence, regroupement).
+- Ajoute les modifiers glass après les modifiers de layout/apparence.
+- Ajoute des transitions de morphing uniquement quand la hiérarchie de vues change avec animation.
 
-## Core Guidelines
-- Prefer native Liquid Glass APIs over custom blurs.
-- Use `GlassEffectContainer` when multiple glass elements coexist.
-- Apply `.glassEffect(...)` after layout and visual modifiers.
-- Use `.interactive()` for elements that respond to touch/pointer.
-- Keep shapes consistent across related elements for a cohesive look.
-- Gate with `#available(iOS 26, *)` and provide a non-glass fallback.
+## Consignes de base
+- Préfère les API natives Liquid Glass aux blurs custom.
+- Utilise `GlassEffectContainer` quand plusieurs éléments glass coexistent.
+- Applique `.glassEffect(...)` après les modifiers de layout et visuels.
+- Utilise `.interactive()` pour les éléments qui répondent au touch/pointer.
+- Garde des shapes cohérentes entre les éléments liés pour un look homogène.
+- Protège avec `#available(iOS 26, *)` et fournis un fallback non-glass.
 
-## Review Checklist
-- **Availability**: `#available(iOS 26, *)` present with fallback UI.
-- **Composition**: Multiple glass views wrapped in `GlassEffectContainer`.
-- **Modifier order**: `glassEffect` applied after layout/appearance modifiers.
-- **Interactivity**: `interactive()` only where user interaction exists.
-- **Transitions**: `glassEffectID` used with `@Namespace` for morphing.
-- **Consistency**: Shapes, tinting, and spacing align across the feature.
+## Checklist de revue
+- **Disponibilité** : `#available(iOS 26, *)` présent avec une UI de fallback.
+- **Composition** : plusieurs vues glass regroupées dans un `GlassEffectContainer`.
+- **Ordre des modifiers** : `glassEffect` appliqué après les modifiers de layout/apparence.
+- **Interactivité** : `interactive()` uniquement là où il y a une interaction utilisateur.
+- **Transitions** : `glassEffectID` utilisé avec `@Namespace` pour le morphing.
+- **Cohérence** : shapes, teintes et espacements alignés sur toute la fonctionnalité.
 
-## Implementation Checklist
-- Define target elements and desired glass prominence.
-- Wrap grouped glass elements in `GlassEffectContainer` and tune spacing.
-- Use `.glassEffect(.regular.tint(...).interactive(), in: .rect(cornerRadius: ...))` as needed.
-- Use `.buttonStyle(.glass)` / `.buttonStyle(.glassProminent)` for actions.
-- Add morphing transitions with `glassEffectID` when hierarchy changes.
-- Provide fallback materials and visuals for earlier iOS versions.
+## Checklist d'implémentation
+- Définis les éléments cibles et la prominence glass souhaitée.
+- Regroupe les éléments glass dans un `GlassEffectContainer` et ajuste l'espacement.
+- Utilise `.glassEffect(.regular.tint(...).interactive(), in: .rect(cornerRadius: ...))` selon le besoin.
+- Utilise `.buttonStyle(.glass)` / `.buttonStyle(.glassProminent)` pour les actions.
+- Ajoute des transitions de morphing avec `glassEffectID` quand la hiérarchie change.
+- Fournis des matériaux et visuels de fallback pour les versions iOS antérieures.
 
-## Quick Snippets
-Use these patterns directly and tailor shapes/tints/spacing.
+## Snippets rapides
+Utilise ces patterns directement et ajuste shapes/teintes/espacements.
 
 ```swift
 if #available(iOS 26, *) {
@@ -85,6 +85,7 @@ Button("Confirm") { }
     .buttonStyle(.glassProminent)
 ```
 
-## Resources
-- Reference guide: `references/liquid-glass.md`
-- Prefer Apple docs for up-to-date API details, and use web search to consult current Apple Developer documentation in addition to the references above.
+## Ressources
+- Guide de référence : `references/liquid-glass.md`
+- Préfère la doc Apple pour les détails d'API à jour, et utilise la recherche web pour consulter la documentation Apple Developer actuelle en complément des références ci-dessus.
+</content>

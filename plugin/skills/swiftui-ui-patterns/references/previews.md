@@ -1,18 +1,18 @@
 # Previews
 
-## Intent
+## Intention
 
-Use previews to validate layout, state wiring, and injected dependencies without relying on a running app or live services.
+Utilise les previews pour valider le layout, le wiring de state et les dépendances injectées sans dépendre d'une app en cours d'exécution ou de services live.
 
-## Core rules
+## Règles essentielles
 
-- Add `#Preview` coverage for the primary state plus important secondary states such as loading, empty, and error.
-- Use deterministic fixtures, mocks, and sample data. Do not make previews depend on live network calls, real databases, or global singletons.
-- Install required environment dependencies directly in the preview so the view can render in isolation.
-- Keep preview setup close to the view until it becomes noisy; then extract lightweight preview helpers or fixtures.
-- If a preview crashes, fix the state initialization or dependency wiring before expanding the feature further.
+- Ajoute une couverture `#Preview` pour le state principal plus les états secondaires importants comme loading, empty et error.
+- Utilise des fixtures, mocks et sample data déterministes. Ne fais pas dépendre les previews d'appels réseau live, de vraies bases de données ou de singletons globaux.
+- Installe les dépendances d'environment requises directement dans la preview pour que la view puisse se render en isolation.
+- Garde le setup de preview proche de la view jusqu'à ce que ça devienne bruyant ; extrais alors des helpers ou fixtures de preview légers.
+- Si une preview crash, corrige l'initialisation du state ou le wiring des dépendances avant d'étendre davantage la feature.
 
-## Example: simple preview states
+## Exemple : états de preview simples
 
 ```swift
 #Preview("Loaded") {
@@ -24,7 +24,7 @@ Use previews to validate layout, state wiring, and injected dependencies without
 }
 ```
 
-## Example: preview with injected dependencies
+## Exemple : preview avec dépendances injectées
 
 ```swift
 #Preview("Search results") {
@@ -34,15 +34,15 @@ Use previews to validate layout, state wiring, and injected dependencies without
 }
 ```
 
-## Preview checklist
+## Checklist de preview
 
-- Does the preview install every required environment dependency?
-- Does it cover at least one success path and one non-happy path?
-- Are fixtures stable and small enough to be read quickly?
-- Can the preview render without network, auth, or app-global initialization?
+- La preview installe-t-elle chaque dépendance d'environment requise ?
+- Couvre-t-elle au moins un chemin de succès et un cas non-happy path ?
+- Les fixtures sont-elles stables et assez petites pour être lues rapidement ?
+- La preview peut-elle se render sans réseau, sans auth, sans initialisation globale de l'app ?
 
-## Pitfalls
+## Pièges
 
-- Do not hide preview crashes by making dependencies optional if the production view requires them.
-- Avoid huge inline fixtures when a named sample is easier to read.
-- Do not couple previews to global shared singletons unless the project has no alternative.
+- Ne masque pas les crashs de preview en rendant les dépendances optionnelles si la view de production les requiert.
+- Évite les grosses fixtures inline quand un sample nommé est plus facile à lire.
+- Ne couple pas les previews à des singletons globaux partagés sauf si le projet n'a pas d'alternative.

@@ -1,18 +1,18 @@
 # Form
 
-## Intent
+## Intention
 
-Use `Form` for structured settings, grouped inputs, and action rows. This pattern keeps layout, spacing, and accessibility consistent for data entry screens.
+Utilise `Form` pour les settings structurés, les inputs groupés, et les rows d'action. Ce pattern garde le layout, l'espacement, et l'accessibilité cohérents pour les écrans de saisie de data.
 
-## Core patterns
+## Patterns essentiels
 
-- Wrap the form in a `NavigationStack` only when it is presented in a sheet or standalone view without an existing navigation context.
-- Group related controls into `Section` blocks.
-- Use `.scrollContentBackground(.hidden)` plus a custom background color when you need design-system colors.
-- Apply `.formStyle(.grouped)` for grouped styling when appropriate.
-- Use `@FocusState` to manage keyboard focus in input-heavy forms.
+- Enveloppe le form dans un `NavigationStack` uniquement quand il est présenté dans une sheet ou en view autonome sans contexte de navigation existant.
+- Groupe les controls liés dans des blocs `Section`.
+- Utilise `.scrollContentBackground(.hidden)` plus une couleur de background custom quand tu as besoin des couleurs du design system.
+- Applique `.formStyle(.grouped)` pour un style groupé quand c'est pertinent.
+- Utilise `@FocusState` pour gérer le focus clavier dans les forms riches en input.
 
-## Example: settings-style form
+## Exemple : form façon settings
 
 ```swift
 @MainActor
@@ -42,7 +42,7 @@ struct SettingsView: View {
 }
 ```
 
-## Example: modal form with validation
+## Exemple : form modal avec validation
 
 ```swift
 @MainActor
@@ -84,14 +84,14 @@ struct AddRemoteServerView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Prefer `Form` over custom stacks for settings and input screens.
-- Keep rows tappable by using `.contentShape(Rectangle())` and `.buttonStyle(.plain)` on row buttons.
-- Use list row backgrounds to keep section styling consistent with your theme.
+- Privilégie `Form` aux stacks custom pour les settings et les écrans de saisie.
+- Garde les rows tappables en utilisant `.contentShape(Rectangle())` et `.buttonStyle(.plain)` sur les boutons de row.
+- Utilise les backgrounds de row de liste pour garder le style de section cohérent avec ton theme.
 
-## Pitfalls
+## Pièges
 
-- Avoid heavy custom layouts inside a `Form`; it can lead to spacing issues.
-- If you need highly custom layouts, prefer `ScrollView` + `VStack`.
-- Don’t mix multiple background strategies; pick either default Form styling or custom colors.
+- Évite les layouts custom lourds à l'intérieur d'un `Form` ; cela peut créer des problèmes d'espacement.
+- Si tu as besoin de layouts très custom, privilégie `ScrollView` + `VStack`.
+- Ne mélange pas plusieurs stratégies de background ; choisis soit le style par défaut de Form, soit des couleurs custom.

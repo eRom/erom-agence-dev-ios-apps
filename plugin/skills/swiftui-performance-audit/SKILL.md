@@ -1,107 +1,107 @@
 ---
 name: swiftui-performance-audit
-description: Audit SwiftUI runtime performance from code first. Use when diagnosing slow rendering, janky scrolling, expensive updates, or profiling needs.
+description: "Audite les performances runtime de SwiftUI en partant du code. À utiliser pour diagnostiquer un rendering lent, un scrolling janky, des updates coûteux, ou un besoin de profiling."
 ---
 
 # SwiftUI Performance Audit
 
-## Quick start
+## Démarrage rapide
 
-Use this skill to diagnose SwiftUI performance issues from code first, then request profiling evidence when code review alone cannot explain the symptoms.
+Utilise cette skill pour diagnostiquer les problèmes de performance SwiftUI en partant du code, puis demande des preuves de profiling quand la revue de code seule ne suffit pas à expliquer les symptômes.
 
 ## Workflow
 
-1. Classify the symptom: slow rendering, janky scrolling, high CPU, memory growth, hangs, or excessive view updates.
-2. If code is available, start with a code-first review using `references/code-smells.md`.
-3. If code is not available, ask for the smallest useful slice: target view, data flow, reproduction steps, and deployment target.
-4. If code review is inconclusive or runtime evidence is required, guide the user through profiling with `references/profiling-intake.md`.
-5. Summarize likely causes, evidence, remediation, and validation steps using `references/report-template.md`.
+1. Classifie le symptôme : rendering lent, scrolling janky, CPU élevé, croissance mémoire, hangs, ou view updates excessifs.
+2. Si le code est disponible, commence par une revue code-first avec `references/code-smells.md`.
+3. Si le code n'est pas disponible, demande la plus petite tranche utile : la view cible, le data flow, les étapes de reproduction, et la cible de déploiement.
+4. Si la revue de code n'est pas concluante ou qu'une preuve runtime est nécessaire, guide l'utilisateur dans le profiling avec `references/profiling-intake.md`.
+5. Résume les causes probables, les preuves, les remédiations et les étapes de validation avec `references/report-template.md`.
 
 ## 1. Intake
 
-Collect:
-- Target view or feature code.
-- Symptoms and exact reproduction steps.
-- Data flow: `@State`, `@Binding`, environment dependencies, and observable models.
-- Whether the issue shows up on device or simulator, and whether it was observed in Debug or Release.
+Collecte :
+- Le code de la view ou de la feature cible.
+- Les symptômes et les étapes exactes de reproduction.
+- Le data flow : `@State`, `@Binding`, dépendances d'environnement, et modèles observables.
+- Si le problème apparaît sur device ou sur Simulator, et s'il a été observé en Debug ou en Release.
 
-Ask the user to classify the issue if possible:
-- CPU spike or battery drain
-- Janky scrolling or dropped frames
-- High memory or image pressure
-- Hangs or unresponsive interactions
-- Excessive or unexpectedly broad view updates
+Demande à l'utilisateur de classifier le problème si possible :
+- Pic de CPU ou drain de batterie
+- Scrolling janky ou frames perdues
+- Mémoire élevée ou pression sur les images
+- Hangs ou interactions qui ne répondent plus
+- View updates excessifs ou anormalement larges
 
-For the full profiling intake checklist, read `references/profiling-intake.md`.
+Pour la checklist complète d'intake de profiling, lis `references/profiling-intake.md`.
 
-## 2. Code-First Review
+## 2. Revue code-first
 
-Focus on:
-- Invalidation storms from broad observation or environment reads.
-- Unstable identity in lists and `ForEach`.
-- Heavy derived work in `body` or view builders.
-- Layout thrash from complex hierarchies, `GeometryReader`, or preference chains.
-- Large image decode or resize work on the main thread.
-- Animation or transition work applied too broadly.
+Concentre-toi sur :
+- Les tempêtes d'invalidation dues à une observation trop large ou à des lectures d'environment.
+- L'identity instable dans les listes et les `ForEach`.
+- Le travail dérivé coûteux dans `body` ou dans les view builders.
+- Le layout thrash causé par des hiérarchies complexes, `GeometryReader`, ou des chaînes de preferences.
+- Le décodage ou le resize d'images lourdes sur le main thread.
+- Le travail d'animation ou de transition appliqué trop largement.
 
-Use `references/code-smells.md` for the detailed smell catalog and fix guidance.
+Utilise `references/code-smells.md` pour le catalogue détaillé des code smells et les pistes de correction.
 
-Provide:
-- Likely root causes with code references.
-- Suggested fixes and refactors.
-- If needed, a minimal repro or instrumentation suggestion.
+Fournis :
+- Les causes racines probables avec des références au code.
+- Des corrections et refactors suggérés.
+- Si nécessaire, un repro minimal ou une suggestion d'instrumentation.
 
-## 3. Guide the User to Profile
+## 3. Guider l'utilisateur vers le profiling
 
-If code review does not explain the issue, ask for runtime evidence:
-- A trace export or screenshots of the SwiftUI timeline and Time Profiler call tree.
-- Device/OS/build configuration.
-- The exact interaction being profiled.
-- Before/after metrics if the user is comparing a change.
+Si la revue de code n'explique pas le problème, demande une preuve runtime :
+- Un export de trace ou des captures d'écran de la timeline SwiftUI et du call tree du Time Profiler.
+- La configuration device/OS/build.
+- L'interaction exacte en cours de profiling.
+- Des métriques avant/après si l'utilisateur compare un changement.
 
-Use `references/profiling-intake.md` for the exact checklist and collection steps.
+Utilise `references/profiling-intake.md` pour la checklist exacte et les étapes de collecte.
 
-## 4. Analyze and Diagnose
+## 4. Analyser et diagnostiquer
 
-- Map the evidence to the most likely category: invalidation, identity churn, layout thrash, main-thread work, image cost, or animation cost.
-- Prioritize problems by impact, not by how easy they are to explain.
-- Distinguish code-level suspicion from trace-backed evidence.
-- Call out when profiling is still insufficient and what additional evidence would reduce uncertainty.
+- Fais correspondre la preuve à la catégorie la plus probable : invalidation, identity churn, layout thrash, travail sur le main thread, coût des images, ou coût des animations.
+- Priorise les problèmes par impact, pas par facilité d'explication.
+- Distingue une suspicion basée sur le code d'une preuve confirmée par une trace.
+- Signale explicitement quand le profiling reste insuffisant et quelle preuve supplémentaire réduirait l'incertitude.
 
-## 5. Remediate
+## 5. Remédier
 
-Apply targeted fixes:
-- Narrow state scope and reduce broad observation fan-out.
-- Stabilize identities for `ForEach` and lists.
-- Move heavy work out of `body` into derived state updated from inputs, model-layer precomputation, memoized helpers, or background preprocessing. Use `@State` only for view-owned state, not as an ad hoc cache for arbitrary computation.
-- Use `equatable()` only when equality is cheaper than recomputing the subtree and the inputs are truly value-semantic.
-- Downsample images before rendering.
-- Reduce layout complexity or use fixed sizing where possible.
+Applique des corrections ciblées :
+- Réduis la portée du state et limite le fan-out d'observation trop large.
+- Stabilise les identités pour `ForEach` et les listes.
+- Sors le travail lourd de `body` vers un state dérivé mis à jour depuis les inputs, un précalcul au niveau du modèle, des helpers mémoïsés, ou un préprocessing en background. Utilise `@State` uniquement pour le state possédé par la view, pas comme un cache ad hoc pour un calcul arbitraire.
+- Utilise `equatable()` uniquement quand l'égalité est moins coûteuse que de recalculer le subtree et que les inputs sont réellement value-semantic.
+- Downsample les images avant le rendering.
+- Réduis la complexité du layout ou utilise un sizing fixe quand c'est possible.
 
-Use `references/code-smells.md` for examples, Observation-specific fan-out guidance, and remediation patterns.
+Utilise `references/code-smells.md` pour des exemples, des indications spécifiques au fan-out d'Observation, et des patterns de remédiation.
 
-## 6. Verify
+## 6. Vérifier
 
-Ask the user to re-run the same capture and compare with baseline metrics.
-Summarize the delta (CPU, frame drops, memory peak) if provided.
+Demande à l'utilisateur de relancer la même capture et de comparer avec les métriques de référence.
+Résume le delta (CPU, frames perdues, pic mémoire) si disponible.
 
-## Outputs
+## Résultats attendus
 
-Provide:
-- A short metrics table (before/after if available).
-- Top issues (ordered by impact).
-- Proposed fixes with estimated effort.
+Fournis :
+- Un tableau de métriques court (avant/après si disponible).
+- Les problèmes principaux (classés par impact).
+- Les corrections proposées avec un effort estimé.
 
-Use `references/report-template.md` when formatting the final audit.
+Utilise `references/report-template.md` pour formater l'audit final.
 
-## References
+## Références
 
-- Profiling intake and collection checklist: `references/profiling-intake.md`
-- Common code smells and remediation patterns: `references/code-smells.md`
-- Audit output template: `references/report-template.md`
-- Add Apple documentation and WWDC resources under `references/` as they are supplied by the user.
-- Optimizing SwiftUI performance with Instruments: `references/optimizing-swiftui-performance-instruments.md`
-- Understanding and improving SwiftUI performance: `references/understanding-improving-swiftui-performance.md`
-- Understanding hangs in your app: `references/understanding-hangs-in-your-app.md`
-- Demystify SwiftUI performance (WWDC23): `references/demystify-swiftui-performance-wwdc23.md`
-- In addition to the references above, use web search to consult current Apple Developer documentation when Instruments workflows or SwiftUI performance guidance may have changed.
+- Checklist d'intake et de collecte pour le profiling : `references/profiling-intake.md`
+- Code smells courants et patterns de remédiation : `references/code-smells.md`
+- Template de sortie d'audit : `references/report-template.md`
+- Ajoute la documentation Apple et les ressources WWDC sous `references/` au fur et à mesure qu'elles sont fournies par l'utilisateur.
+- Optimizing SwiftUI performance with Instruments : `references/optimizing-swiftui-performance-instruments.md`
+- Understanding and improving SwiftUI performance : `references/understanding-improving-swiftui-performance.md`
+- Understanding hangs in your app : `references/understanding-hangs-in-your-app.md`
+- Demystify SwiftUI performance (WWDC23) : `references/demystify-swiftui-performance-wwdc23.md`
+- En complément des références ci-dessus, utilise une recherche web pour consulter la documentation Apple Developer actuelle quand les workflows Instruments ou les recommandations de performance SwiftUI ont pu changer.

@@ -1,46 +1,46 @@
-# Demystify SwiftUI Performance (WWDC23) (Summary)
+# Demystify SwiftUI Performance (WWDC23) (Résumé)
 
-Context: WWDC23 session on building a mental model for SwiftUI performance and triaging hangs/hitches.
+Contexte : session WWDC23 sur la construction d'un modèle mental pour la performance SwiftUI et le triage des hangs/hitches.
 
-## Performance loop
+## Boucle de performance
 
-- Measure -> Identify -> Optimize -> Re-measure.
-- Focus on concrete symptoms (slow navigation, broken animations, spinning cursor).
+- Mesurer -> Identifier -> Optimiser -> Re-mesurer.
+- Se concentrer sur des symptômes concrets (navigation lente, animations cassées, curseur qui tourne).
 
-## Dependencies and updates
+## Dépendances et updates
 
-- Views form a dependency graph; dynamic properties are a frequent source of updates.
-- Use `Self._printChanges()` in debug only to inspect extra dependencies.
-- Eliminate unnecessary dependencies by extracting views or narrowing state.
-- Consider `@Observable` for more granular property tracking.
+- Les views forment un graphe de dépendances ; les dynamic properties sont une source fréquente d'updates.
+- Utiliser `Self._printChanges()` en debug uniquement pour inspecter les dépendances supplémentaires.
+- Éliminer les dépendances inutiles en extrayant des views ou en réduisant la portée du state.
+- Envisager `@Observable` pour un tracking des propriétés plus granulaire.
 
-## Common causes of slow updates
+## Causes courantes d'updates lents
 
-- Expensive view bodies (string interpolation, filtering, formatting).
-- Dynamic property instantiation and state initialization in `body`.
-- Slow identity resolution in lists/tables.
-- Hidden work: bundle lookups, heap allocations, repeated string construction.
+- Bodies de view coûteux (interpolation de string, filtering, formatting).
+- Instanciation de dynamic properties et initialisation de state dans `body`.
+- Résolution d'identity lente dans les listes/tables.
+- Travail caché : lookups de bundle, allocations heap, construction répétée de strings.
 
-## Avoid slow initialization in view bodies
+## Éviter une initialisation lente dans les bodies de view
 
-- Don’t create heavy models synchronously in view bodies.
-- Use `.task` to fetch async data and keep `init` lightweight.
+- Ne pas créer de modèles lourds de façon synchrone dans les bodies de view.
+- Utiliser `.task` pour récupérer les données async et garder `init` léger.
 
-## Lists and tables identity rules
+## Règles d'identity pour les listes et les tables
 
-- Stable identity is critical for performance and animation.
-- Ensure a constant number of views per element in `ForEach`.
-- Avoid inline filtering in `ForEach`; pre-filter and cache collections.
-- Avoid `AnyView` in list rows; it hides identity and increases cost.
-- Flatten nested `ForEach` when possible to reduce overhead.
+- Une identity stable est critique pour la performance et l'animation.
+- S'assurer d'un nombre constant de views par élément dans `ForEach`.
+- Éviter le filtering inline dans `ForEach` ; préfiltrer et mettre en cache les collections.
+- Éviter `AnyView` dans les lignes de liste ; cela masque l'identity et augmente le coût.
+- Aplatir les `ForEach` imbriqués quand c'est possible pour réduire l'overhead.
 
-## Table specifics
+## Spécificités de Table
 
-- `TableRow` resolves to a single row; row count must be constant.
-- Prefer the streamlined `Table` initializer to enforce constant rows.
-- Use explicit IDs for back deployment when needed.
+- `TableRow` se résout en une seule ligne ; le nombre de lignes doit être constant.
+- Préférer l'initialiseur `Table` simplifié pour imposer un nombre de lignes constant.
+- Utiliser des IDs explicites pour le back deployment quand nécessaire.
 
-## Debugging aids
+## Aides au debugging
 
-- Use Instruments for hangs and hitches.
-- Use `_printChanges` to validate dependency assumptions during debug.
+- Utiliser Instruments pour les hangs et les hitches.
+- Utiliser `_printChanges` pour valider les hypothèses de dépendances pendant le debug.

@@ -1,18 +1,18 @@
 # ScrollView and Lazy stacks
 
-## Intent
+## Intention
 
-Use `ScrollView` with `LazyVStack`, `LazyHStack`, or `LazyVGrid` when you need custom layout, mixed content, or horizontal/ grid-based scrolling.
+Utilise `ScrollView` avec `LazyVStack`, `LazyHStack` ou `LazyVGrid` quand tu as besoin d'un layout custom, de contenu mixte, ou d'un scroll horizontal / basé sur une grid.
 
-## Core patterns
+## Patterns essentiels
 
-- Prefer `ScrollView` + `LazyVStack` for chat-like or custom feed layouts.
-- Use `ScrollView(.horizontal)` + `LazyHStack` for chips, tags, avatars, and media strips.
-- Use `LazyVGrid` for icon/media grids; prefer adaptive columns when possible.
-- Use `ScrollViewReader` for scroll-to-top/bottom and anchor-based jumps.
-- Use `safeAreaInset(edge:)` for input bars that should stick above the keyboard.
+- Privilégie `ScrollView` + `LazyVStack` pour des layouts type chat ou des feeds custom.
+- Utilise `ScrollView(.horizontal)` + `LazyHStack` pour les chips, tags, avatars et media strips.
+- Utilise `LazyVGrid` pour les grids d'icônes/media ; privilégie des colonnes adaptive quand c'est possible.
+- Utilise `ScrollViewReader` pour le scroll-to-top/bottom et les jumps basés sur des ancres.
+- Utilise `safeAreaInset(edge:)` pour les input bars qui doivent rester collées au-dessus du keyboard.
 
-## Example: vertical custom feed
+## Exemple : feed vertical custom
 
 ```swift
 @MainActor
@@ -46,7 +46,7 @@ struct ConversationView: View {
 }
 ```
 
-## Example: horizontal chips
+## Exemple : chips horizontales
 
 ```swift
 ScrollView(.horizontal, showsIndicators: false) {
@@ -58,7 +58,7 @@ ScrollView(.horizontal, showsIndicators: false) {
 }
 ```
 
-## Example: adaptive grid
+## Exemple : grid adaptive
 
 ```swift
 let columns = [GridItem(.adaptive(minimum: 120))]
@@ -73,15 +73,15 @@ ScrollView {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Use `Lazy*` stacks when item counts are large or unknown.
-- Use non-lazy stacks for small, fixed-size content to avoid lazy overhead.
-- Keep IDs stable when using `ScrollViewReader`.
-- Prefer explicit animations (`withAnimation`) when scrolling to an ID.
+- Utilise les stacks `Lazy*` quand le nombre d'items est grand ou inconnu.
+- Utilise des stacks non-lazy pour du contenu petit et de taille fixe, pour éviter l'overhead du lazy.
+- Garde les IDs stables quand tu utilises `ScrollViewReader`.
+- Privilégie des animations explicites (`withAnimation`) quand tu scrolles vers un ID.
 
-## Pitfalls
+## Pièges
 
-- Avoid nesting scroll views of the same axis; it causes gesture conflicts.
-- Don’t combine `List` and `ScrollView` in the same hierarchy without a clear reason.
-- Overuse of `LazyVStack` for tiny content can add unnecessary complexity.
+- Évite d'imbriquer des scroll views sur le même axe ; ça crée des conflits de gesture.
+- Ne combine pas `List` et `ScrollView` dans la même hiérarchie sans raison claire.
+- Un usage excessif de `LazyVStack` pour du contenu minuscule peut ajouter une complexité inutile.

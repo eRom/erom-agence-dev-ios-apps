@@ -1,18 +1,18 @@
 # macOS Settings
 
-## Intent
+## Intention
 
-Use this when building a macOS Settings window backed by SwiftUI's `Settings` scene.
+Utilise ceci pour construire une fenêtre Settings macOS reposant sur la scene `Settings` de SwiftUI.
 
-## Core patterns
+## Patterns essentiels
 
-- Declare the Settings scene in the `App` and compile it only for macOS.
-- Keep settings content in a dedicated root view (`SettingsView`) and drive values with `@AppStorage`.
-- Use `TabView` to group settings sections when you have more than one category.
-- Use `Form` inside each tab to keep controls aligned and accessible.
-- Use `OpenSettingsAction` or `SettingsLink` for in-app entry points to the Settings window.
+- Déclare la scene Settings dans l'`App` et compile-la uniquement pour macOS.
+- Garde le contenu des settings dans une root view dédiée (`SettingsView`) et pilote les valeurs avec `@AppStorage`.
+- Utilise `TabView` pour grouper les sections de settings quand tu as plus d'une catégorie.
+- Utilise `Form` dans chaque tab pour garder les controls alignés et accessibles.
+- Utilise `OpenSettingsAction` ou `SettingsLink` pour les points d'entrée in-app vers la fenêtre Settings.
 
-## Example: settings scene
+## Exemple : scene settings
 
 ```swift
 @main
@@ -30,7 +30,7 @@ struct MyApp: App {
 }
 ```
 
-## Example: tabbed settings view
+## Exemple : settings view avec tabs
 
 ```swift
 @MainActor
@@ -59,13 +59,13 @@ struct SettingsView: View {
 }
 ```
 
-## Skip navigation
+## Éviter la navigation
 
-- Avoid wrapping `SettingsView` in a `NavigationStack` unless you truly need deep push navigation.
-- Prefer tabs or sections; Settings is already presented as a separate window and should feel flat.
-- If you must show hierarchical settings, use a single `NavigationSplitView` with a sidebar list of categories.
+- Évite d'envelopper `SettingsView` dans un `NavigationStack`, sauf besoin réel de navigation push profonde.
+- Privilégie les tabs ou les sections ; Settings est déjà présenté comme une fenêtre séparée et doit rester plat.
+- Si tu dois montrer des settings hiérarchiques, utilise un unique `NavigationSplitView` avec une sidebar listant les catégories.
 
-## Pitfalls
+## Pièges
 
-- Don’t reuse iOS-only settings layouts (full-screen stacks, toolbar-heavy flows).
-- Avoid large custom view hierarchies inside `Form`; keep rows focused and accessible.
+- Ne réutilise pas des layouts settings propres à iOS (stacks plein écran, flux riches en toolbar).
+- Évite les grandes hiérarchies de view custom dans un `Form` ; garde les rows ciblées et accessibles.

@@ -1,17 +1,17 @@
 # Media (images, video, viewer)
 
-## Intent
+## Intention
 
-Use consistent patterns for loading images, previewing media, and presenting a full-screen viewer.
+Utilise des patterns cohérents pour charger des images, prévisualiser du media et présenter un viewer full-screen.
 
-## Core patterns
+## Patterns essentiels
 
-- Use `LazyImage` (or `AsyncImage`) for remote images with loading states.
-- Prefer a lightweight preview component for inline media.
-- Use a shared viewer state (e.g., `QuickLook`) to present a full-screen media viewer.
-- Use `openWindow` for desktop/visionOS and a sheet for iOS.
+- Utilise `LazyImage` (ou `AsyncImage`) pour les images distantes avec des états de chargement.
+- Privilégie un composant de preview léger pour le media inline.
+- Utilise un state de viewer partagé (par exemple `QuickLook`) pour présenter un viewer media full-screen.
+- Utilise `openWindow` pour desktop/visionOS et une sheet pour iOS.
 
-## Example: inline media preview
+## Exemple : preview media inline
 
 ```swift
 struct MediaPreviewRow: View {
@@ -45,7 +45,7 @@ struct MediaPreviewRow: View {
 }
 ```
 
-## Example: global media viewer sheet
+## Exemple : sheet de viewer media global
 
 ```swift
 struct AppRoot: View {
@@ -61,13 +61,13 @@ struct AppRoot: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Keep previews lightweight; load full media in the viewer.
-- Use shared viewer state so any view can open media without prop-drilling.
-- Use a single entry point for the viewer (sheet/window) to avoid duplicates.
+- Garde les previews légers ; charge le media complet dans le viewer.
+- Utilise un state de viewer partagé pour que n'importe quelle view puisse ouvrir du media sans prop-drilling.
+- Garde un seul point d'entrée pour le viewer (sheet/window) pour éviter les doublons.
 
-## Pitfalls
+## Pièges
 
-- Avoid loading full-size images in list rows; use resized previews.
-- Don’t present multiple viewer sheets at once; keep a single source of truth.
+- Évite de charger des images en pleine résolution dans les lignes de liste ; utilise des previews redimensionnées.
+- Ne présente pas plusieurs sheets de viewer en même temps ; garde une seule source de vérité.

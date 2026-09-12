@@ -1,12 +1,12 @@
 # Split views and columns
 
-## Intent
+## Intention
 
-Provide a lightweight, customizable multi-column layout for iPad/macOS without relying on `NavigationSplitView`.
+Fournis un layout multi-colonnes léger et personnalisable pour iPad/macOS sans dépendre de `NavigationSplitView`.
 
-## Custom split column pattern (manual HStack)
+## Pattern de split column custom (HStack manuel)
 
-Use this when you want full control over column sizing, behavior, and environment tweaks.
+Utilise ça quand tu veux un contrôle total sur le dimensionnement des colonnes, le comportement et les ajustements d'environment.
 
 ```swift
 @MainActor
@@ -41,15 +41,15 @@ struct AppView: View {
 }
 ```
 
-## Notes on the custom approach
+## Notes sur l'approche custom
 
-- Use a shared preference or setting to toggle the secondary column.
-- Inject an environment flag (e.g., `isSecondaryColumn`) so child views can adapt behavior.
-- Prefer a fixed or capped width for the secondary column to avoid layout thrash.
+- Utilise un preference ou setting partagé pour activer/désactiver la colonne secondaire.
+- Injecte un flag d'environment (par exemple `isSecondaryColumn`) pour que les child views puissent adapter leur comportement.
+- Privilégie une largeur fixe ou plafonnée pour la colonne secondaire afin d'éviter le layout thrash.
 
-## Alternative: NavigationSplitView
+## Alternative : NavigationSplitView
 
-`NavigationSplitView` can handle sidebar + detail + supplementary columns for you, but is harder to customize in cases like:\n- a dedicated notification column independent of selection,\n- custom sizing, or\n- different toolbar behaviors per column.
+`NavigationSplitView` peut gérer sidebar + detail + colonnes supplémentaires pour toi, mais est plus difficile à personnaliser dans des cas comme :\n- une colonne de notifications dédiée indépendante de la sélection,\n- un dimensionnement custom, ou\n- des comportements de toolbar différents par colonne.
 
 ```swift
 @MainActor
@@ -66,7 +66,7 @@ struct AppView: View {
 }
 ```
 
-## When to choose which
+## Quand choisir quoi
 
-- Use the manual HStack split when you need full control or a non-standard secondary column.
-- Use `NavigationSplitView` when you want a standard system layout with minimal customization.
+- Utilise le split manuel en HStack quand tu as besoin d'un contrôle total ou d'une colonne secondaire non standard.
+- Utilise `NavigationSplitView` quand tu veux un layout système standard avec une personnalisation minimale.

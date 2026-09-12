@@ -1,50 +1,50 @@
-# Components Index
+# Index des composants
 
-Use this file to find component and cross-cutting guidance. Each entry lists when to use it.
+Utilise ce fichier pour trouver les guides de composants et les références transverses. Chaque entrée indique quand l'utiliser.
 
-## Available components
+## Composants disponibles
 
-- TabView: `references/tabview.md` — Use when building a tab-based app or any tabbed feature set.
-- NavigationStack: `references/navigationstack.md` — Use when you need push navigation and programmatic routing, especially per-tab history.
-- Sheets and presentation: `references/sheets.md` — Use for local item-driven sheets, centralized modal routing, and sheet-specific action patterns.
-- Form and Settings: `references/form.md` — Use for settings, grouped inputs, and structured data entry.
-- macOS Settings: `references/macos-settings.md` — Use when building a macOS Settings window with SwiftUI's Settings scene.
-- Split views and columns: `references/split-views.md` — Use for iPad/macOS multi-column layouts or custom secondary columns.
-- List and Section: `references/list.md` — Use for feed-style content and settings rows.
-- ScrollView and Lazy stacks: `references/scrollview.md` — Use for custom layouts, horizontal scrollers, or grids.
-- Scroll-reveal detail surfaces: `references/scroll-reveal.md` — Use when a detail screen reveals secondary content or actions as the user scrolls or swipes between full-screen sections.
-- Grids: `references/grids.md` — Use for icon pickers, media galleries, and tiled layouts.
-- Theming and dynamic type: `references/theming.md` — Use for app-wide theme tokens, colors, and type scaling.
-- Controls (toggles, pickers, sliders): `references/controls.md` — Use for settings controls and input selection.
-- Input toolbar (bottom anchored): `references/input-toolbar.md` — Use for chat/composer screens with a sticky input bar.
-- Top bar overlays (iOS 26+ and fallback): `references/top-bar.md` — Use for pinned selectors or pills above scroll content.
-- Overlay and toasts: `references/overlay.md` — Use for transient UI like banners or toasts.
-- Focus handling: `references/focus.md` — Use for chaining fields and keyboard focus management.
-- Searchable: `references/searchable.md` — Use for native search UI with scopes and async results.
-- Async images and media: `references/media.md` — Use for remote media, previews, and media viewers.
-- Haptics: `references/haptics.md` — Use for tactile feedback tied to key actions.
-- Matched transitions: `references/matched-transitions.md` — Use for smooth source-to-destination animations.
-- Deep links and URL routing: `references/deeplinks.md` — Use for in-app navigation from URLs.
-- Title menus: `references/title-menus.md` — Use for filter or context menus in the navigation title.
-- Menu bar commands: `references/menu-bar.md` — Use when adding or customizing macOS/iPadOS menu bar commands.
-- Loading & placeholders: `references/loading-placeholders.md` — Use for redacted skeletons, empty states, and loading UX.
-- Lightweight clients: `references/lightweight-clients.md` — Use for small, closure-based API clients injected into stores.
+- TabView : `references/tabview.md` : à utiliser pour construire une app à tabs ou tout ensemble de features avec des tabs.
+- NavigationStack : `references/navigationstack.md` : à utiliser quand tu as besoin de navigation push et de routing programmatique, notamment un historique par tab.
+- Sheets et présentation : `references/sheets.md` : à utiliser pour des sheets locales pilotées par item, du routing modal centralisé, et des patterns d'action propres aux sheets.
+- Form et Settings : `references/form.md` : à utiliser pour les settings, les inputs groupés, et la saisie de data structurée.
+- macOS Settings : `references/macos-settings.md` : à utiliser pour construire une fenêtre Settings macOS avec la scene `Settings` de SwiftUI.
+- Split views et colonnes : `references/split-views.md` : à utiliser pour des layouts multi-colonnes iPad/macOS ou des colonnes secondaires custom.
+- List et Section : `references/list.md` : à utiliser pour du contenu façon feed et des rows de settings.
+- ScrollView et lazy stacks : `references/scrollview.md` : à utiliser pour des layouts custom, des scrollers horizontaux, ou des grids.
+- Surfaces de detail en scroll-reveal : `references/scroll-reveal.md` : à utiliser quand un écran de detail révèle du contenu ou des actions secondaires au fil du scroll ou du swipe entre des sections plein écran.
+- Grids : `references/grids.md` : à utiliser pour des icon pickers, des galeries média, et des layouts en mosaïque.
+- Theming et dynamic type : `references/theming.md` : à utiliser pour les tokens de theme à l'échelle de l'app, les couleurs, et le scaling du type.
+- Controls (toggles, pickers, sliders) : `references/controls.md` : à utiliser pour les controls de settings et la sélection d'input.
+- Input toolbar (ancrée en bas) : `references/input-toolbar.md` : à utiliser pour les écrans chat/composer avec une barre d'input collante.
+- Overlays de top bar (iOS 26+ et fallback) : `references/top-bar.md` : à utiliser pour des sélecteurs ou pills épinglés au-dessus du contenu scrollé.
+- Overlay et toasts : `references/overlay.md` : à utiliser pour de l'UI transitoire comme des bannières ou des toasts.
+- Gestion du focus : `references/focus.md` : à utiliser pour chaîner des champs et gérer le focus clavier.
+- Searchable : `references/searchable.md` : à utiliser pour une UI de recherche native avec scopes et résultats asynchrones.
+- Images et média asynchrones : `references/media.md` : à utiliser pour du média distant, des previews, et des viewers de média.
+- Haptics : `references/haptics.md` : à utiliser pour du feedback tactile lié à des actions clés.
+- Matched transitions : `references/matched-transitions.md` : à utiliser pour des animations fluides source-vers-destination.
+- Deep links et routing d'URL : `references/deeplinks.md` : à utiliser pour la navigation in-app depuis des URL.
+- Title menus : `references/title-menus.md` : à utiliser pour des menus de filtre ou de contexte dans le titre de navigation.
+- Menu bar commands : `references/menu-bar.md` : à utiliser pour ajouter ou personnaliser des commandes de menu bar macOS/iPadOS.
+- Loading & placeholders : `references/loading-placeholders.md` : à utiliser pour des skeletons redacted, des empty states, et l'UX de loading.
+- Lightweight clients : `references/lightweight-clients.md` : à utiliser pour des petits clients API à base de closures injectés dans des stores.
 
-## Cross-cutting references
+## Références transverses
 
-- App wiring and dependency graph: `references/app-wiring.md` — Use to wire the app shell, install shared dependencies, and decide what belongs in the environment.
-- Async state and task lifecycle: `references/async-state.md` — Use when a view loads data, reacts to changing input, or needs cancellation/debouncing guidance.
-- Previews: `references/previews.md` — Use when adding `#Preview`, fixtures, mock environments, or isolated preview setup.
-- Performance guardrails: `references/performance.md` — Use when a screen is large, scroll-heavy, frequently updated, or showing signs of avoidable re-renders.
+- Wiring de l'app et graphe de dépendances : `references/app-wiring.md` : à utiliser pour brancher la coquille d'app, installer les dépendances partagées, et décider ce qui va dans l'environment.
+- State asynchrone et lifecycle des tasks : `references/async-state.md` : à utiliser quand une view charge des data, réagit à un input changeant, ou a besoin de guidance sur l'annulation/le debouncing.
+- Previews : `references/previews.md` : à utiliser en ajoutant `#Preview`, des fixtures, des environments mockés, ou un setup de preview isolé.
+- Garde-fous de performance : `references/performance.md` : à utiliser quand un écran est grand, riche en scroll, mis à jour fréquemment, ou montre des signes de re-renders évitables.
 
-## Planned components (create files as needed)
+## Composants prévus (créer les fichiers au besoin)
 
-- Web content: create `references/webview.md` — Use for embedded web content or in-app browsing.
-- Status composer patterns: create `references/composer.md` — Use for composition or editor workflows.
-- Text input and validation: create `references/text-input.md` — Use for forms, validation, and text-heavy input.
-- Design system usage: create `references/design-system.md` — Use when applying shared styling rules.
+- Contenu web : créer `references/webview.md` : à utiliser pour du contenu web embarqué ou du in-app browsing.
+- Patterns de composer de statut : créer `references/composer.md` : à utiliser pour des workflows de composition ou d'édition.
+- Saisie de texte et validation : créer `references/text-input.md` : à utiliser pour les forms, la validation, et la saisie riche en texte.
+- Usage du design system : créer `references/design-system.md` : à utiliser en appliquant des règles de style partagées.
 
-## Adding entries
+## Ajouter des entrées
 
-- Add the component file and link it here with a short “when to use” description.
-- Keep each component reference short and actionable.
+- Ajoute le fichier du composant et lie-le ici avec une courte description « quand l'utiliser ».
+- Garde chaque référence de composant courte et actionnable.

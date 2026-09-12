@@ -1,57 +1,58 @@
-# First-pass checklist
+# Checklist de première passe
 
-Use this checklist when deciding what to expose in the first App Intents release.
+Utilise cette checklist pour décider ce qu'exposer dans la première release App Intents.
 
-## Pick the first actions
+## Choisis les premières actions
 
-Choose actions that are:
+Choisis des actions qui sont :
 
-- useful without browsing the full app first
-- easy to describe in one sentence
-- valuable in Shortcuts, Siri, Spotlight, or widgets
-- backed by existing app logic instead of requiring a major rewrite
+- utiles sans avoir à parcourir toute l'app d'abord
+- faciles à décrire en une phrase
+- utiles dans Shortcuts, Siri, Spotlight ou les widgets
+- portées par de la logique app déjà existante plutôt que d'exiger une réécriture majeure
 
-Good first candidates:
+Bons premiers candidats :
 
-- compose something
-- open a destination or object
-- find or filter a known object
-- continue an existing workflow
-- start a focused action
+- composer quelque chose
+- ouvrir une destination ou un objet
+- trouver ou filtrer un objet connu
+- continuer un workflow existant
+- démarrer une action ciblée
 
-Avoid as a first pass:
+À éviter en première passe :
 
-- giant setup flows
-- actions that only make sense after many in-app taps
-- low-value screens exposed only because they exist
+- les flows de setup géants
+- les actions qui n'ont de sens qu'après de nombreux taps in-app
+- les écrans à faible valeur exposés uniquement parce qu'ils existent
 
-## Pick the first entities
+## Choisis les premières entités
 
-Use app entities when the system needs to identify or display app objects.
+Utilise des app entities quand le système a besoin d'identifier ou d'afficher des objets de l'app.
 
-Good first entities:
+Bonnes premières entités :
 
-- account
-- list
-- filter
+- compte
+- liste
+- filtre
 - destination
-- draft
-- media item
+- brouillon
+- élément média
 
-Keep each entity focused on:
+Garde chaque entité centrée sur :
 
-- identifier
-- display representation
-- the few fields the system needs for routing or disambiguation
+- l'identifiant
+- la représentation d'affichage
+- les quelques champs dont le système a besoin pour le routing ou la désambiguïsation
 
-Do not mirror the entire persistence model if a much smaller system-facing type will do.
+Ne mire pas tout le modèle de persistance si un type system-facing bien plus petit fait l'affaire.
 
-## Decide the handoff model
+## Décide du modèle de handoff
 
-For each intent, ask:
+Pour chaque intent, demande-toi :
 
-- Can this finish directly from the system surface?
-- Should this open the app to a specific place?
-- If it opens the app, what is the single clean route back into the main scene?
+- Cette action peut-elle se terminer directement depuis la system surface ?
+- Doit-elle ouvrir l'app vers un endroit précis ?
+- Si elle ouvre l'app, quelle est l'unique route propre pour revenir dans la scène principale ?
 
-Prefer one explicit routing or handoff service over many feature-specific side channels.
+Préfère un seul service de routing ou de handoff explicite à de nombreux canaux latéraux spécifiques à chaque fonctionnalité.
+</content>

@@ -1,12 +1,12 @@
 # Top bar overlays (iOS 26+ and fallback)
 
-## Intent
+## Intention
 
-Provide a custom top selector or pill row that sits above scroll content, using `safeAreaBar(.top)` on iOS 26 and a compatible fallback on earlier OS versions.
+Fournis un sélecteur top custom ou une pill row qui se place au-dessus du contenu scrollable, en utilisant `safeAreaBar(.top)` sur iOS 26 et un fallback compatible sur les versions d'OS antérieures.
 
-## iOS 26+ approach
+## Approche iOS 26+
 
-Use `safeAreaBar(edge: .top)` to attach the view to the safe area bar.
+Utilise `safeAreaBar(edge: .top)` pour attacher la view à la safe area bar.
 
 ```swift
 if #available(iOS 26.0, *) {
@@ -18,9 +18,9 @@ if #available(iOS 26.0, *) {
 }
 ```
 
-## Fallback for earlier iOS
+## Fallback pour les iOS antérieurs
 
-Use `.safeAreaInset(edge: .top)` and hide the toolbar background to avoid double layers.
+Utilise `.safeAreaInset(edge: .top)` et masque le background de la toolbar pour éviter les doubles couches.
 
 ```swift
 content
@@ -37,13 +37,13 @@ content
   }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Use `safeAreaBar` when available; it integrates better with the navigation bar.
-- Use a subtle background + divider in the fallback to keep separation from content.
-- Keep the selector height compact to avoid pushing content too far down.
+- Utilise `safeAreaBar` quand disponible ; ça s'intègre mieux avec la navigation bar.
+- Utilise un background discret + un divider dans le fallback pour garder la séparation avec le contenu.
+- Garde la hauteur du sélecteur compacte pour éviter de trop repousser le contenu vers le bas.
 
-## Pitfalls
+## Pièges
 
-- Don’t stack multiple top insets; it can create extra padding.
-- Avoid heavy, opaque backgrounds that fight the navigation bar.
+- N'empile pas plusieurs top insets ; ça peut créer du padding supplémentaire.
+- Évite les backgrounds lourds et opaques qui entrent en conflit avec la navigation bar.

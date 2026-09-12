@@ -1,16 +1,16 @@
 # Overlay and toasts
 
-## Intent
+## Intention
 
-Use overlays for transient UI (toasts, banners, loaders) without affecting layout.
+Utilise les overlays pour de l'UI transitoire (toasts, banners, loaders) sans affecter le layout.
 
-## Core patterns
+## Patterns essentiels
 
-- Use `.overlay(alignment:)` to place global UI without changing the underlying layout.
-- Keep overlays lightweight and dismissible.
-- Use a dedicated `ToastCenter` (or similar) for global state if multiple features trigger toasts.
+- Utilise `.overlay(alignment:)` pour placer de l'UI globale sans changer le layout sous-jacent.
+- Garde les overlays légers et dismissibles.
+- Utilise un `ToastCenter` dédié (ou équivalent) pour un state global si plusieurs features déclenchent des toasts.
 
-## Example: toast overlay
+## Exemple : overlay de toast
 
 ```swift
 struct AppRootView: View {
@@ -33,13 +33,13 @@ struct AppRootView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Prefer overlays for transient UI rather than embedding in layout stacks.
-- Use transitions and short auto-dismiss timers.
-- Keep the overlay aligned to a clear edge (`.top` or `.bottom`).
+- Privilégie les overlays pour l'UI transitoire plutôt que de les embarquer dans des stacks de layout.
+- Utilise des transitions et des timers d'auto-dismiss courts.
+- Garde l'overlay aligné sur un bord clair (`.top` ou `.bottom`).
 
-## Pitfalls
+## Pièges
 
-- Avoid overlays that block all interaction unless explicitly needed.
-- Don’t stack many overlays; use a queue or replace the current toast.
+- Évite les overlays qui bloquent toute interaction sauf si c'est explicitement nécessaire.
+- N'empile pas plusieurs overlays ; utilise une queue ou remplace le toast courant.

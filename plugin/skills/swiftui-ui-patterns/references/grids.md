@@ -1,17 +1,17 @@
 # Grids
 
-## Intent
+## Intention
 
-Use `LazyVGrid` for icon pickers, media galleries, and dense visual selections where items align in columns.
+Utilise `LazyVGrid` pour les icon pickers, les galeries média, et les sélections visuelles denses où les items s'alignent en colonnes.
 
-## Core patterns
+## Patterns essentiels
 
-- Use `.adaptive` columns for layouts that should scale across device sizes.
-- Use multiple `.flexible` columns when you want a fixed column count.
-- Keep spacing consistent and small to avoid uneven gutters.
-- Use `GeometryReader` inside grid cells when you need square thumbnails.
+- Utilise des colonnes `.adaptive` pour des layouts qui doivent s'adapter selon la taille de l'appareil.
+- Utilise plusieurs colonnes `.flexible` quand tu veux un nombre de colonnes fixe.
+- Garde un espacement cohérent et réduit pour éviter des gouttières irrégulières.
+- Utilise `GeometryReader` dans les cells de grid quand tu as besoin de thumbnails carrées.
 
-## Example: adaptive icon grid
+## Exemple : grid d'icons adaptative
 
 ```swift
 let columns = [GridItem(.adaptive(minimum: 120, maximum: 1024))]
@@ -38,7 +38,7 @@ LazyVGrid(columns: columns, spacing: 6) {
 }
 ```
 
-## Example: fixed 3-column media grid
+## Exemple : grid média fixe à 3 colonnes
 
 ```swift
 LazyVGrid(
@@ -59,13 +59,13 @@ LazyVGrid(
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Use `LazyVGrid` for large collections; avoid non-lazy grids for big sets.
-- Keep tap targets full-bleed using `.contentShape(Rectangle())` when needed.
-- Prefer adaptive grids for settings pickers and flexible layouts.
+- Utilise `LazyVGrid` pour les grandes collections ; évite les grids non-lazy pour de gros ensembles.
+- Garde des tap targets full-bleed avec `.contentShape(Rectangle())` si besoin.
+- Privilégie les grids adaptatives pour les pickers de settings et les layouts flexibles.
 
-## Pitfalls
+## Pièges
 
-- Avoid heavy overlays in every grid cell; it can be expensive.
-- Don’t nest grids inside other grids without a clear reason.
+- Évite les overlays lourds dans chaque cell de grid ; cela peut coûter cher.
+- N'imbrique pas de grids dans d'autres grids sans raison claire.

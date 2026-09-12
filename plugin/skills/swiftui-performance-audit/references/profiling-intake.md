@@ -1,44 +1,44 @@
-# Profiling intake and collection checklist
+# Checklist d'intake et de collecte pour le profiling
 
-## Intent
+## Intention
 
-Use this checklist when code review alone cannot explain the SwiftUI performance issue and you need runtime evidence from the user.
+Utilise cette checklist quand la revue de code seule ne peut pas expliquer le problème de performance SwiftUI et qu'il faut une preuve runtime de la part de l'utilisateur.
 
-## Ask for first
+## À demander en premier
 
-- Exact symptom: CPU spike, dropped frames, memory growth, hangs, or excessive view updates.
-- Exact interaction: scrolling, typing, initial load, navigation push/pop, animation, sheet presentation, or background refresh.
-- Target device and OS version.
-- Whether the issue was reproduced on a real device or only in Simulator.
-- Build configuration: Debug or Release.
-- Whether the user already has a baseline or before/after comparison.
+- Le symptôme exact : pic de CPU, frames perdues, croissance mémoire, hangs, ou view updates excessifs.
+- L'interaction exacte : scrolling, saisie, chargement initial, navigation push/pop, animation, présentation d'une sheet, ou refresh en background.
+- Le device et la version d'OS cibles.
+- Si le problème a été reproduit sur un device réel ou seulement sur Simulator.
+- La configuration de build : Debug ou Release.
+- Si l'utilisateur a déjà une baseline ou une comparaison avant/après.
 
-## Default profiling request
+## Demande de profiling par défaut
 
-Ask the user to:
-- Run the app in a Release build when possible.
-- Use the SwiftUI Instruments template.
-- Reproduce the exact problematic interaction only long enough to capture the issue.
-- Capture the SwiftUI timeline and Time Profiler together.
-- Export the trace or provide screenshots of the key SwiftUI lanes and the Time Profiler call tree.
+Demande à l'utilisateur de :
+- Lancer l'app en build Release quand c'est possible.
+- Utiliser le SwiftUI template d'Instruments.
+- Reproduire l'interaction problématique exacte, juste assez longtemps pour capturer le problème.
+- Capturer la timeline SwiftUI et le Time Profiler ensemble.
+- Exporter la trace ou fournir des captures d'écran des lanes SwiftUI clés et du call tree du Time Profiler.
 
-## Ask for these artifacts
+## Artefacts à demander
 
-- Trace export or screenshots of the relevant SwiftUI lanes
-- Time Profiler call tree screenshot or export
-- Device/OS/build configuration
-- A short note describing what action was happening at the time of the capture
-- If memory is involved, the memory graph or Allocations data if available
+- Export de trace ou captures d'écran des lanes SwiftUI concernées
+- Capture d'écran ou export du call tree du Time Profiler
+- Configuration device/OS/build
+- Une courte note décrivant ce qui se passait au moment de la capture
+- Si la mémoire est en cause, le memory graph ou les données Allocations si disponibles
 
-## When to ask for more
+## Quand demander plus
 
-- Ask for a second capture if the first run mixes multiple interactions.
-- Ask for a before/after pair if the user has already tried a fix.
-- Ask for a device capture if the issue only appears in Simulator or if scrolling smoothness matters.
+- Demande une deuxième capture si la première mélange plusieurs interactions.
+- Demande une paire avant/après si l'utilisateur a déjà tenté un correctif.
+- Demande une capture sur device si le problème n'apparaît que sur Simulator ou si la fluidité du scrolling compte.
 
-## Common traps
+## Pièges courants
 
-- Debug builds can distort SwiftUI timing and allocation behavior.
-- Simulator traces can miss device-only rendering or memory issues.
-- Mixed interactions in one capture make attribution harder.
-- Screenshots without the reproduction note are much harder to interpret.
+- Les builds Debug peuvent fausser le timing et le comportement d'allocation de SwiftUI.
+- Les traces Simulator peuvent manquer des problèmes de rendering ou de mémoire propres au device.
+- Des interactions mélangées dans une même capture rendent l'attribution plus difficile.
+- Des captures d'écran sans la note de reproduction sont beaucoup plus difficiles à interpréter.

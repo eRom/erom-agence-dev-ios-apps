@@ -1,18 +1,18 @@
-# Async state and task lifecycle
+# State asynchrone et lifecycle des tasks
 
-## Intent
+## Intention
 
-Use this pattern when a view loads data, reacts to changing input, or coordinates async work that should follow the SwiftUI view lifecycle.
+Utilise ce pattern quand une view charge des data, réagit à un input changeant, ou coordonne du travail asynchrone qui doit suivre le lifecycle de la view SwiftUI.
 
-## Core rules
+## Règles essentielles
 
-- Use `.task` for load-on-appear work that belongs to the view lifecycle.
-- Use `.task(id:)` when async work should restart for a changing input such as a query, selection, or identifier.
-- Treat cancellation as a normal path for view-driven tasks. Check `Task.isCancelled` in longer flows and avoid surfacing cancellation as a user-facing error.
-- Debounce or coalesce user-driven async work such as search before it fans out into repeated requests.
-- Keep UI-facing models and mutations main-actor-safe; do background work in services, then publish the result back to UI state.
+- Utilise `.task` pour le travail de chargement au appear qui appartient au lifecycle de la view.
+- Utilise `.task(id:)` quand le travail asynchrone doit redémarrer pour un input changeant, comme une query, une sélection, ou un identifier.
+- Traite l'annulation comme un chemin normal pour les tasks pilotées par la view. Vérifie `Task.isCancelled` dans les flux plus longs et évite d'exposer l'annulation comme une erreur user-facing.
+- Debounce ou regroupe le travail asynchrone piloté par l'utilisateur, comme la recherche, avant qu'il ne se transforme en requêtes répétées.
+- Garde les modèles et mutations UI-facing main-actor-safe ; fais le travail en arrière-plan dans les services, puis publie le résultat vers le state UI.
 
-## Example: load on appear
+## Exemple : chargement au appear
 
 ```swift
 struct DetailView: View {
@@ -52,7 +52,7 @@ struct DetailView: View {
 }
 ```
 
-## Example: restart on input change
+## Exemple : redémarrage au changement d'input
 
 ```swift
 struct SearchView: View {
@@ -83,14 +83,14 @@ struct SearchView: View {
 }
 ```
 
-## When to move work out of the view
+## Quand sortir le travail de la view
 
-- If the async flow spans multiple screens or must survive view dismissal, move it into a service or model.
-- If the view is mostly coordinating app-level lifecycle or account changes, wire it at the app shell in `app-wiring.md`.
-- If retry, caching, or offline policy becomes complex, keep the policy in the client/service and leave the view with simple state transitions.
+- Si le flux asynchrone s'étend sur plusieurs écrans ou doit survivre à la dismissal de la view, déplace-le dans un service ou un modèle.
+- Si la view coordonne surtout le lifecycle au niveau de l'app ou les changements de compte, branche-la dans la coquille d'app, voir `app-wiring.md`.
+- Si la politique de retry, de cache, ou de mode offline devient complexe, garde la politique dans le client/service et laisse la view avec des transitions de state simples.
 
-## Pitfalls
+## Pièges
 
-- Do not start network work directly from `body`.
-- Do not ignore cancellation for searches, typeahead, or rapidly changing selections.
-- Avoid storing derived async state in multiple places when one source of truth is enough.
+- Ne démarre pas de travail réseau directement depuis `body`.
+- N'ignore pas l'annulation pour les recherches, le typeahead, ou les sélections qui changent rapidement.
+- Évite de stocker du state asynchrone dérivé à plusieurs endroits quand une seule source de vérité suffit.

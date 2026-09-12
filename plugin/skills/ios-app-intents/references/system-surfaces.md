@@ -1,31 +1,32 @@
 # System surfaces
 
-Think in system entry points, not just in shortcuts.
+Pense en points d'entrée système, pas seulement en shortcuts.
 
 ## Shortcuts
 
-- Good for direct actions and automation chains.
-- Expose the actions that users would actually want to reuse.
-- Add `AppShortcutsProvider` entries for the first high-value intents.
+- Idéal pour les actions directes et les chaînes d'automatisation.
+- Expose les actions que les utilisateurs voudraient vraiment réutiliser.
+- Ajoute des entrées `AppShortcutsProvider` pour les premiers intents à forte valeur.
 
 ## Siri
 
-- Good for clear verbs and deep-linkable actions.
-- Phrase titles and parameters so the system can present and disambiguate them clearly.
+- Idéal pour des verbes clairs et des actions deep-linkable.
+- Formule les titres et les paramètres pour que le système puisse les présenter et les désambiguïser clairement.
 
 ## Spotlight
 
-- Good for discoverability of both actions and entities.
-- Use strong display representations and clear type names.
+- Idéal pour la découvrabilité des actions comme des entités.
+- Utilise des représentations d'affichage fortes et des noms de type clairs.
 
-## Widgets, Live Activities, and controls
+## Widgets, Live Activities et controls
 
-- Good when the same actions already make sense as intent-driven entry points.
-- Reuse the same intent surface where practical instead of inventing separate action models.
+- Idéal quand les mêmes actions font déjà sens comme points d'entrée pilotés par intent.
+- Réutilise la même surface d'intents quand c'est pratique plutôt que d'inventer des modèles d'action séparés.
 
-## General guidance
+## Consignes générales
 
-- Design one small action layer that can serve several surfaces.
-- Keep action names concrete and user-facing.
-- Prefer structured entities and parameters over trying to encode everything in free-form text.
-- Start narrow, ship a useful set, then expand based on real use.
+- Conçois une seule petite couche d'action capable de servir plusieurs surfaces.
+- Garde des noms d'action concrets et orientés utilisateur.
+- Préfère des entités et des paramètres structurés plutôt que d'essayer de tout encoder en texte libre.
+- Commence étroit, livre un ensemble utile, puis étends selon l'usage réel.
+</content>

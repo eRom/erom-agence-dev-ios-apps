@@ -1,13 +1,13 @@
-# Lightweight Clients (Closure-Based)
+# Lightweight Clients (à base de closures)
 
-Use this pattern to keep networking or service dependencies simple and testable without introducing a full view model or heavy DI framework. It works well for SwiftUI apps where you want a small, composable API surface that can be swapped in previews/tests.
+Utilise ce pattern pour garder les dépendances réseau ou service simples et testables sans introduire un view model complet ni un framework de DI lourd. Cela fonctionne bien pour les apps SwiftUI où tu veux une petite surface d'API composable, remplaçable dans les previews/tests.
 
-## Intent
-- Provide a tiny "client" type made of async closures.
-- Keep business logic in a store or feature layer, not the view.
-- Enable easy stubbing in previews/tests.
+## Intention
+- Fournir un tiny "client", fait de closures asynchrones.
+- Garder la logique métier dans un store ou une couche feature, pas dans la view.
+- Faciliter le stubbing dans les previews/tests.
 
-## Minimal shape
+## Forme minimale
 ```swift
 struct SomeClient {
     var fetchItems: (_ limit: Int) async throws -> [Item]
@@ -19,17 +19,17 @@ extension SomeClient {
         let session = URLSession.shared
         return SomeClient(
             fetchItems: { limit in
-                // build URL, call session, decode
+                // construit l'URL, appelle la session, décode
             },
             search: { query, limit in
-                // build URL, call session, decode
+                // construit l'URL, appelle la session, décode
             }
         )
     }
 }
 ```
 
-## Usage pattern
+## Pattern d'usage
 ```swift
 @MainActor
 @Observable final class ItemsStore {
@@ -82,12 +82,12 @@ struct MyApp: App {
 }
 ```
 
-## Guidance
-- Keep decoding and URL-building in the client; keep state changes in the store.
-- Make the store accept the client in `init` and keep it private.
-- Avoid global singletons; use `.environment` for store injection.
-- If you need multiple variants (mock/stub), add `static func mock(...)`.
+## Directives
+- Garde le decoding et la construction d'URL dans le client ; garde les changements de state dans le store.
+- Fais en sorte que le store accepte le client dans `init` et garde-le private.
+- Évite les singletons globaux ; utilise `.environment` pour l'injection du store.
+- Si tu as besoin de plusieurs variantes (mock/stub), ajoute `static func mock(...)`.
 
-## Pitfalls
-- Don’t put UI state in the client; keep state in the store.
-- Don’t capture `self` or view state in the client closures.
+## Pièges
+- Ne mets pas de state UI dans le client ; garde le state dans le store.
+- Ne capture pas `self` ou du state de view dans les closures du client.

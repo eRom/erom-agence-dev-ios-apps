@@ -1,21 +1,21 @@
-# List and Section
+# List et Section
 
-## Intent
+## Intention
 
-Use `List` for feed-style content and settings-style rows where built-in row reuse, selection, and accessibility matter.
+Utilise `List` pour du contenu façon feed et des rows façon settings, là où la réutilisation de row native, la sélection, et l'accessibilité comptent.
 
-## Core patterns
+## Patterns essentiels
 
-- Prefer `List` for long, vertically scrolling content with repeated rows.
-- Use `Section` headers to group related rows.
-- Pair with `ScrollViewReader` when you need scroll-to-top or jump-to-id.
-- Use `.listStyle(.plain)` for modern feed layouts.
-- Use `.listStyle(.grouped)` for multi-section discovery/search pages where section grouping helps.
-- Apply `.scrollContentBackground(.hidden)` + a custom background when you need a themed surface.
-- Use `.listRowInsets(...)` and `.listRowSeparator(.hidden)` to tune row spacing and separators.
-- Use `.environment(\\.defaultMinListRowHeight, ...)` to control dense list layouts.
+- Privilégie `List` pour du contenu long, à scroll vertical, avec des rows répétées.
+- Utilise des headers de `Section` pour grouper les rows liées.
+- Associe avec `ScrollViewReader` quand tu as besoin de scroll-to-top ou de jump-to-id.
+- Utilise `.listStyle(.plain)` pour des layouts de feed modernes.
+- Utilise `.listStyle(.grouped)` pour des pages de découverte/recherche multi-sections où le regroupement en sections aide.
+- Applique `.scrollContentBackground(.hidden)` + un background custom quand tu as besoin d'une surface themée.
+- Utilise `.listRowInsets(...)` et `.listRowSeparator(.hidden)` pour ajuster l'espacement des rows et les separators.
+- Utilise `.environment(\\.defaultMinListRowHeight, ...)` pour contrôler des layouts de liste denses.
 
-## Example: feed list with scroll-to-top
+## Exemple : feed list avec scroll-to-top
 
 ```swift
 @MainActor
@@ -53,7 +53,7 @@ struct TimelineListView: View {
 }
 ```
 
-## Example: settings-style list
+## Exemple : list façon settings
 
 ```swift
 @MainActor
@@ -73,14 +73,14 @@ struct SettingsView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Use `List` for dynamic feeds, settings, and any UI where row semantics help.
-- Use stable IDs for rows to keep animations and scroll positioning reliable.
-- Prefer `.contentShape(Rectangle())` on rows that should be tappable end-to-end.
-- Use `.refreshable` for pull-to-refresh feeds when the data source supports it.
+- Utilise `List` pour les feeds dynamiques, les settings, et toute UI où la sémantique de row aide.
+- Utilise des IDs stables pour les rows afin de garder les animations et le positionnement de scroll fiables.
+- Privilégie `.contentShape(Rectangle())` sur les rows qui doivent être tappables de bout en bout.
+- Utilise `.refreshable` pour le pull-to-refresh sur les feeds quand la source de data le supporte.
 
-## Pitfalls
+## Pièges
 
-- Avoid heavy custom layouts inside a `List` row; use `ScrollView` + `LazyVStack` instead.
-- Be careful mixing `List` and nested `ScrollView`; it can cause gesture conflicts.
+- Évite les layouts custom lourds dans une row de `List` ; utilise plutôt `ScrollView` + `LazyVStack`.
+- Fais attention en mélangeant `List` et `ScrollView` imbriquée ; cela peut causer des conflits de gesture.

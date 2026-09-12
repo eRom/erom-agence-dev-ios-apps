@@ -1,17 +1,17 @@
 # Searchable
 
-## Intent
+## Intention
 
-Use `searchable` to add native search UI with optional scopes and async results.
+Utilise `searchable` pour ajouter une UI de recherche native avec scopes optionnels et résultats asynchrones.
 
-## Core patterns
+## Patterns essentiels
 
-- Bind `searchable(text:)` to local state.
-- Use `.searchScopes` for multiple search modes.
-- Use `.task(id: searchQuery)` or debounced tasks to avoid overfetching.
-- Show placeholders or progress states while results load.
+- Bind `searchable(text:)` à du state local.
+- Utilise `.searchScopes` pour plusieurs modes de recherche.
+- Utilise `.task(id: searchQuery)` ou des tasks debounced pour éviter le overfetching.
+- Affiche des placeholders ou des états de progress pendant le chargement des résultats.
 
-## Example: searchable with scopes
+## Exemple : searchable avec scopes
 
 ```swift
 @MainActor
@@ -59,13 +59,13 @@ struct ExploreView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Show a placeholder when search is empty or has no results.
-- Debounce input to avoid spamming the network.
-- Keep search state local to the view.
+- Affiche un placeholder quand la recherche est vide ou sans résultat.
+- Debounce la saisie pour éviter de spammer le réseau.
+- Garde le state de recherche local à la view.
 
-## Pitfalls
+## Pièges
 
-- Avoid running searches for empty strings.
-- Don’t block the main thread during fetch.
+- Évite de lancer des recherches pour des chaînes vides.
+- Ne bloque pas le main thread pendant le fetch.

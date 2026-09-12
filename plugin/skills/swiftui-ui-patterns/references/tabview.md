@@ -1,22 +1,22 @@
 # TabView
 
-## Intent
+## Intention
 
-Use this pattern for a scalable, multi-platform tab architecture with:
-- a single source of truth for tab identity and content,
-- platform-specific tab sets and sidebar sections,
-- dynamic tabs sourced from data,
-- an interception hook for special tabs (e.g., compose).
+Utilise ce pattern pour une architecture de tabs scalable et multi-plateforme avec :
+- une seule source de vérité pour l'identité et le contenu des tabs,
+- des jeux de tabs et des sections de sidebar spécifiques à la plateforme,
+- des tabs dynamiques sourcées depuis de la donnée,
+- un hook d'interception pour les tabs spéciales (par exemple compose).
 
-## Core architecture
+## Architecture essentielle
 
-- `AppTab` enum defines identity, labels, icons, and content builder.
-- `SidebarSections` enum groups tabs for sidebar sections.
-- `AppView` owns the `TabView` and selection binding, and routes tab changes through `updateTab`.
+- L'enum `AppTab` définit l'identité, les labels, les icônes et le content builder.
+- L'enum `SidebarSections` groupe les tabs pour les sections de sidebar.
+- `AppView` possède la `TabView` et le binding de sélection, et route les changements de tab via `updateTab`.
 
-## Example: custom binding with side effects
+## Exemple : binding custom avec effets de bord
 
-Use this when tab selection needs side effects, like intercepting a special tab to perform an action instead of changing selection.
+Utilise ça quand la sélection de tab a besoin d'effets de bord, comme intercepter une tab spéciale pour effectuer une action au lieu de changer la sélection.
 
 ```swift
 @MainActor
@@ -50,7 +50,7 @@ struct AppView: View {
 
   private func updateTab(with newTab: AppTab) {
     if newTab == .post {
-      // Intercept special tabs (compose) instead of changing selection.
+      // Intercepte les tabs spéciales (compose) au lieu de changer la sélection.
       presentComposer()
       return
     }
@@ -59,9 +59,9 @@ struct AppView: View {
 }
 ```
 
-## Example: direct binding without side effects
+## Exemple : binding direct sans effets de bord
 
-Use this when selection is purely state-driven.
+Utilise ça quand la sélection est purement pilotée par du state.
 
 ```swift
 @MainActor
@@ -92,23 +92,23 @@ struct AppView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Centralize tab identity and content in `AppTab` with `makeContentView(...)`.
-- Use `Tab(value:)` with `selection` binding for state-driven tab selection.
-- Route selection changes through `updateTab` to handle special tabs and scroll-to-top behavior.
-- Use `TabSection` + `.tabPlacement(.sidebarOnly)` for sidebar structure.
-- Use `.tabPlacement(.pinned)` in `AppTab.tabPlacement` for a single pinned tab; this is commonly used for iOS 26 `.searchable` tab content, but can be used for any tab.
+- Centralise l'identité et le contenu des tabs dans `AppTab` avec `makeContentView(...)`.
+- Utilise `Tab(value:)` avec un binding `selection` pour une sélection de tab pilotée par du state.
+- Route les changements de sélection via `updateTab` pour gérer les tabs spéciales et le comportement scroll-to-top.
+- Utilise `TabSection` + `.tabPlacement(.sidebarOnly)` pour la structure de sidebar.
+- Utilise `.tabPlacement(.pinned)` dans `AppTab.tabPlacement` pour une seule tab épinglée ; c'est couramment utilisé pour le contenu de tab `.searchable` sur iOS 26, mais peut servir pour n'importe quelle tab.
 
-## Dynamic tabs pattern
+## Pattern de tabs dynamiques
 
-- `SidebarSections` handles dynamic data tabs.
-- `AppTab.anyTimelineFilter(filter:)` wraps dynamic tabs in a single enum case.
-- The enum provides label/icon/title for dynamic tabs via the filter type.
+- `SidebarSections` gère les tabs de données dynamiques.
+- `AppTab.anyTimelineFilter(filter:)` enveloppe les tabs dynamiques dans un seul case d'enum.
+- L'enum fournit label/icon/title pour les tabs dynamiques via le type de filtre.
 
-## Pitfalls
+## Pièges
 
-- Avoid adding ViewModels for tabs; keep state local or in `@Observable` services.
-- Do not nest `@Observable` objects inside other `@Observable` objects.
-- Ensure `AppTab.id` values are stable; dynamic cases should hash on stable IDs.
-- Special tabs (compose) should not change selection.
+- Évite d'ajouter des ViewModels pour les tabs ; garde le state local ou dans des services `@Observable`.
+- N'imbrique pas des objets `@Observable` à l'intérieur d'autres objets `@Observable`.
+- Assure-toi que les valeurs `AppTab.id` sont stables ; les cases dynamiques doivent hasher sur des IDs stables.
+- Les tabs spéciales (compose) ne doivent pas changer la sélection.

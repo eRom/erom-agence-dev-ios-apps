@@ -90,9 +90,10 @@ voit 9 skills et 1 serveur MCP, ~778 tok always-on.
 
 | Élément | État |
 |---|---|
-| `plugin/skills/` | 9 skills. `ios-simulator-browser` réécrite en français le 2026-09-12 ; les 8 autres encore en anglais : écart à l'invariant 2 |
+| `plugin/skills/` | 9 skills, toutes en français le 2026-09-12 (`SKILL.md` et `references/`, jargon et API gardés en anglais). Les scripts `.py`, `.sh`, `.mjs` sont restés tels quels |
+| `ios-ettrace-performance` | le passage Codex (`write_stdin`) remplacé par une session tmux (`new-session`, `send-keys`, `capture-pane`). Testé en partie le 2026-09-12 avec `ettrace` 1.1.0 (Homebrew) : dans tmux, `capture-pane` lit bien le prompt « Press return when ready... ». Pas encore de capture complète, faute d'app liée à `ETTrace.xcframework` |
 | `ios-simulator-browser` | portée vers le Browser pane de Desktop (`.claude/launch.json`, `bunx serve-sim@0.1.46`, `autoPort: false`). Sources : doc Desktop, README serve-sim (section « Claude Code Desktop »), `dist/serve-sim.js` 0.1.46 qui ne lit que `--port`. Voie CLI testée le 2026-09-12 sur iPhone 17 Pro / iOS 26.5 : preview sur 3200, image en direct dans Chrome, `tap` et `button home` reçus (`event-log`). Voie Desktop (Browser pane) pas encore testée |
-| Traces Codex | restent dans `ios-ettrace-performance` (`write_stdin`) et les préfixes `codex-` de `mktemp` de deux skills : écart à l'invariant 7 |
+| Traces Codex | aucune dans les skills, hors mention de la source. Préfixes `mktemp` passés de `codex-` à `erom-` |
 | `plugin/.mcp.json` | `bunx xcodebuildmcp@2.7.0 mcp`, vu « Connected » par `claude --plugin-dir plugin mcp list` le 2026-09-12. `npx -y xcodebuildmcp@latest` échouait (CONNECTION_CLOSED), le workflow `logging` n'existe pas en 2.7.0 |
 | Runtimes du Simulator | aucun installé sur la machine (`xcrun simctl runtime list` : 0 image disque), rien de ce qui touche au simulateur ne peut tourner |
 | Keywords du manifeste | remplis |

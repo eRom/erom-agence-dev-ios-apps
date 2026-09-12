@@ -1,18 +1,18 @@
 # Controls (Toggle, Slider, Picker)
 
-## Intent
+## Intention
 
-Use native controls for settings and configuration screens, keeping labels accessible and state bindings clear.
+Utilise les controls natifs pour les écrans de settings et de configuration, en gardant des labels accessibles et des bindings de state clairs.
 
-## Core patterns
+## Patterns essentiels
 
-- Bind controls directly to `@State`, `@Binding`, or `@AppStorage`.
-- Prefer `Toggle` for boolean preferences.
-- Use `Slider` for numeric ranges and show the current value in a label.
-- Use `Picker` for discrete choices; use `.pickerStyle(.segmented)` only for 2–4 options.
-- Keep labels visible and descriptive; avoid embedding buttons inside controls.
+- Bind les controls directement à `@State`, `@Binding`, ou `@AppStorage`.
+- Privilégie `Toggle` pour les préférences booléennes.
+- Utilise `Slider` pour les plages numériques et affiche la valeur actuelle dans un label.
+- Utilise `Picker` pour les choix discrets ; réserve `.pickerStyle(.segmented)` aux cas de 2 à 4 options.
+- Garde les labels visibles et descriptifs ; évite d'embarquer des buttons dans les controls.
 
-## Example: toggles with sections
+## Exemple : toggles avec sections
 
 ```swift
 Form {
@@ -24,7 +24,7 @@ Form {
 }
 ```
 
-## Example: slider with value text
+## Exemple : slider avec texte de valeur
 
 ```swift
 Section("Font Size") {
@@ -34,7 +34,7 @@ Section("Font Size") {
 }
 ```
 
-## Example: picker for enums
+## Exemple : picker pour un enum
 
 ```swift
 Picker("Default Visibility", selection: $visibility) {
@@ -44,14 +44,14 @@ Picker("Default Visibility", selection: $visibility) {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Group related controls in a `Form` section.
-- Use `.disabled(...)` to reflect locked or inherited settings.
-- Use `Label` inside toggles to combine icon + text when it adds clarity.
+- Groupe les controls liés dans une section de `Form`.
+- Utilise `.disabled(...)` pour refléter les settings verrouillés ou hérités.
+- Utilise `Label` dans les toggles pour combiner icon + texte quand ça apporte de la clarté.
 
-## Pitfalls
+## Pièges
 
-- Avoid `.pickerStyle(.segmented)` for large sets; use menu or inline styles instead.
-- Don’t hide labels for sliders; always show context.
-- Avoid hard-coding colors for controls; use theme tint sparingly.
+- Évite `.pickerStyle(.segmented)` pour de grands ensembles ; utilise plutôt les styles menu ou inline.
+- Ne cache pas les labels des sliders ; montre toujours le contexte.
+- Évite de hardcoder les couleurs des controls ; utilise le tint du theme avec parcimonie.

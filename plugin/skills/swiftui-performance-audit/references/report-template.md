@@ -1,47 +1,47 @@
-# Audit output template
+# Template de sortie d'audit
 
-## Intent
+## Intention
 
-Use this structure when reporting SwiftUI performance findings so the user can quickly see the symptom, evidence, likely cause, and next validation step.
+Utilise cette structure pour rapporter les résultats de l'audit de performance SwiftUI, afin que l'utilisateur voie rapidement le symptôme, la preuve, la cause probable et la prochaine étape de validation.
 
 ## Template
 
 ```markdown
-## Summary
+## Résumé
 
-[One short paragraph on the most likely bottleneck and whether the conclusion is code-backed or trace-backed.]
+[Un court paragraphe sur le bottleneck le plus probable et si la conclusion est appuyée par le code ou par une trace.]
 
-## Findings
+## Constats
 
-1. [Issue title]
-   - Symptom: [what the user sees]
-   - Likely cause: [root cause]
-   - Evidence: [code reference or profiling evidence]
-   - Fix: [specific change]
-   - Validation: [what to measure after the fix]
+1. [Titre du problème]
+   - Symptôme : [ce que voit l'utilisateur]
+   - Cause probable : [cause racine]
+   - Preuve : [référence au code ou preuve de profiling]
+   - Correctif : [changement précis]
+   - Validation : [ce qu'il faut mesurer après le correctif]
 
-2. [Issue title]
-   - Symptom: ...
-   - Likely cause: ...
-   - Evidence: ...
-   - Fix: ...
-   - Validation: ...
+2. [Titre du problème]
+   - Symptôme : ...
+   - Cause probable : ...
+   - Preuve : ...
+   - Correctif : ...
+   - Validation : ...
 
-## Metrics
+## Mesures
 
-| Metric | Before | After | Notes |
+| Mesure | Avant | Après | Notes |
 | --- | --- | --- | --- |
-| CPU | [value] | [value] | [note] |
-| Frame drops / hitching | [value] | [value] | [note] |
-| Memory peak | [value] | [value] | [note] |
+| CPU | [valeur] | [valeur] | [note] |
+| Frame drops / hitching | [valeur] | [valeur] | [note] |
+| Pic mémoire | [valeur] | [valeur] | [note] |
 
-## Next step
+## Prochaine étape
 
-[One concrete next action: apply a fix, capture a better trace, or validate on device.]
+[Une action concrète suivante : appliquer un correctif, capturer une meilleure trace, ou valider sur device.]
 ```
 
 ## Notes
 
-- Order findings by impact, not by file order.
-- Say explicitly when a conclusion is still a hypothesis.
-- If no metrics are available, omit the table and say what should be measured next.
+- Classe les findings par impact, pas par ordre dans le fichier.
+- Précise explicitement quand une conclusion est encore une hypothèse.
+- Si aucune métrique n'est disponible, omets le tableau et indique ce qu'il faudrait mesurer ensuite.

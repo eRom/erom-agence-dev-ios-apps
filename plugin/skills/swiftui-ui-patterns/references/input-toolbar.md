@@ -1,17 +1,17 @@
-# Input toolbar (bottom anchored)
+# Input toolbar (ancrée en bas)
 
-## Intent
+## Intention
 
-Use a bottom-anchored input bar for chat, composer, or quick actions without fighting the keyboard.
+Utilise une barre d'input ancrée en bas pour le chat, le composer, ou des actions rapides sans te battre avec le clavier.
 
-## Core patterns
+## Patterns essentiels
 
-- Use `.safeAreaInset(edge: .bottom)` to anchor the toolbar above the keyboard.
-- Keep the main content in a `ScrollView` or `List`.
-- Drive focus with `@FocusState` and set initial focus when needed.
-- Avoid embedding the input bar inside the scroll content; keep it separate.
+- Utilise `.safeAreaInset(edge: .bottom)` pour ancrer la toolbar au-dessus du clavier.
+- Garde le contenu principal dans un `ScrollView` ou `List`.
+- Pilote le focus avec `@FocusState` et fixe le focus initial si besoin.
+- Évite d'intégrer la barre d'input dans le contenu du scroll ; garde-la séparée.
 
-## Example: scroll view + bottom input
+## Exemple : scroll view + input en bas
 
 ```swift
 @MainActor
@@ -39,13 +39,13 @@ struct ConversationView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Keep the input bar visually separated from the scrollable content.
-- Use `.scrollDismissesKeyboard(.interactively)` for chat-like screens.
-- Ensure send actions are reachable via keyboard return or a clear button.
+- Garde la barre d'input visuellement séparée du contenu scrollable.
+- Utilise `.scrollDismissesKeyboard(.interactively)` pour les écrans façon chat.
+- Assure-toi que les actions d'envoi sont atteignables via le return du clavier ou un bouton clair.
 
-## Pitfalls
+## Pièges
 
-- Avoid placing the input view inside the scroll stack; it will jump with content.
-- Avoid nested scroll views that fight for drag gestures.
+- Évite de placer la view d'input dans le stack de scroll ; elle sautera avec le contenu.
+- Évite les scroll views imbriquées qui se disputent les gestures de drag.

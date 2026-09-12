@@ -1,12 +1,12 @@
-# Common code smells and remediation patterns
+# Code smells courants et patterns de remédiation
 
-## Intent
+## Intention
 
-Use this reference during code-first review to map visible SwiftUI patterns to likely runtime costs and safer remediation guidance.
+Utilise cette référence pendant une revue code-first pour faire correspondre les patterns SwiftUI visibles à leurs coûts runtime probables et à des recommandations de remédiation sûres.
 
-## High-priority smells
+## Smells prioritaires
 
-### Expensive formatters in `body`
+### Formatters coûteux dans `body`
 
 ```swift
 var body: some View {
@@ -16,7 +16,7 @@ var body: some View {
 }
 ```
 
-Prefer cached formatters in a model or dedicated helper:
+Préfère des formatters mis en cache dans un modèle ou un helper dédié :
 
 ```swift
 final class DistanceFormatter {
@@ -26,7 +26,7 @@ final class DistanceFormatter {
 }
 ```
 
-### Heavy computed properties
+### Computed properties lourdes
 
 ```swift
 var filtered: [Item] {
@@ -34,9 +34,9 @@ var filtered: [Item] {
 }
 ```
 
-Prefer deriving this once per meaningful input change in a model/helper, or store derived view-owned state only when the view truly owns the transformation lifecycle.
+Préfère dériver cette valeur une fois par changement significatif de l'input, dans un modèle/helper, ou ne stocke un state dérivé possédé par la view que quand la view possède réellement le cycle de vie de la transformation.
 
-### Sorting or filtering inside `body`
+### Sort ou filter à l'intérieur de `body`
 
 ```swift
 List {
@@ -46,13 +46,13 @@ List {
 }
 ```
 
-Prefer sorting before render work begins:
+Préfère trier avant que le travail de render ne commence :
 
 ```swift
 let sortedItems = items.sorted(by: sortRule)
 ```
 
-### Inline filtering inside `ForEach`
+### Filtering inline à l'intérieur de `ForEach`
 
 ```swift
 ForEach(items.filter { $0.isEnabled }) { item in
@@ -60,9 +60,9 @@ ForEach(items.filter { $0.isEnabled }) { item in
 }
 ```
 
-Prefer a prefiltered collection with stable identity.
+Préfère une collection préfiltrée avec une identity stable.
 
-### Unstable identity
+### Identity instable
 
 ```swift
 ForEach(items, id: \.self) { item in
@@ -70,9 +70,9 @@ ForEach(items, id: \.self) { item in
 }
 ```
 
-Avoid `id: \.self` for non-stable values or collections that reorder. Use a stable domain identifier.
+Évite `id: \.self` pour des valeurs non stables ou des collections qui se réordonnent. Utilise un identifiant de domaine stable.
 
-### Top-level conditional view swapping
+### Permutation conditionnelle de view au niveau racine
 
 ```swift
 var content: some View {
@@ -84,19 +84,19 @@ var content: some View {
 }
 ```
 
-Prefer one stable base view and localize conditions to sections or modifiers. This reduces root identity churn and makes diffing cheaper.
+Préfère une seule base view stable et localise les conditions dans des sections ou des modifiers. Cela réduit le churn d'identity à la racine et rend le diffing moins coûteux.
 
-### Image decoding on the main thread
+### Décodage d'image sur le main thread
 
 ```swift
 Image(uiImage: UIImage(data: data)!)
 ```
 
-Prefer decode and downsample work off the main thread, then store the processed image.
+Préfère faire le décodage et le downsample hors du main thread, puis stocker l'image traitée.
 
-## Observation fan-out
+## Fan-out d'Observation
 
-### Broad `@Observable` reads on iOS 17+
+### Lectures larges d'`@Observable` sur iOS 17+
 
 ```swift
 @Observable final class Model {
@@ -108,9 +108,9 @@ var body: some View {
 }
 ```
 
-If many views read the same broad collection or root model, small changes can fan out into wide invalidation. Prefer narrower derived inputs, smaller observable surfaces, or per-item state closer to the leaf views.
+Si beaucoup de views lisent la même collection large ou le même modèle racine, de petits changements peuvent fan-out en une invalidation large. Préfère des inputs dérivés plus étroits, des surfaces observables plus petites, ou un state par item plus proche des leaf views.
 
-### Broad `ObservableObject` reads on iOS 16 and earlier
+### Lectures larges d'`ObservableObject` sur iOS 16 et versions antérieures
 
 ```swift
 final class Model: ObservableObject {
@@ -118,33 +118,33 @@ final class Model: ObservableObject {
 }
 ```
 
-The same warning applies to legacy observation. Avoid having many descendants observe a large shared object when they only need one derived field.
+Le même avertissement s'applique à l'observation legacy. Évite d'avoir de nombreux descendants qui observent un gros objet partagé quand ils n'ont besoin que d'un seul champ dérivé.
 
-## Remediation notes
+## Notes de remédiation
 
-### `@State` is not a generic cache
+### `@State` n'est pas un cache générique
 
-Use `@State` for view-owned state and derived values that intentionally belong to the view lifecycle. Do not move arbitrary expensive computation into `@State` unless you also define when and why it updates.
+Utilise `@State` pour le state possédé par la view et les valeurs dérivées qui appartiennent intentionnellement au cycle de vie de la view. Ne déplace pas un calcul arbitraire et coûteux dans `@State` sans définir aussi quand et pourquoi il se met à jour.
 
-Better alternatives:
-- precompute in the model or store
-- update derived state in response to a specific input change
-- memoize in a dedicated helper
-- preprocess on a background task before rendering
+Meilleures alternatives :
+- précalculer dans le modèle ou le store
+- mettre à jour un state dérivé en réponse à un changement d'input spécifique
+- mémoïser dans un helper dédié
+- préprocesser dans une tâche en background avant le rendering
 
-### `equatable()` is conditional guidance
+### `equatable()` est une recommandation conditionnelle
 
-Use `equatable()` only when:
-- equality is cheaper than recomputing the subtree, and
-- the view inputs are value-semantic and stable enough for meaningful equality checks
+Utilise `equatable()` uniquement quand :
+- l'égalité est moins coûteuse que de recalculer le subtree, et
+- les inputs de la view sont value-semantic et suffisamment stables pour des vérifications d'égalité pertinentes
 
-Do not apply `equatable()` as a blanket fix for all redraws.
+N'applique pas `equatable()` comme correctif générique à tous les redraws.
 
-## Triage order
+## Ordre de triage
 
-When multiple smells appear together, prioritize in this order:
-1. Broad invalidation and observation fan-out
-2. Unstable identity and list churn
-3. Main-thread work during render
-4. Image decode or resize cost
-5. Layout and animation complexity
+Quand plusieurs smells apparaissent ensemble, priorise dans cet ordre :
+1. Invalidation large et fan-out d'observation
+2. Identity instable et churn de liste
+3. Travail sur le main thread pendant le render
+4. Coût du décodage ou du resize d'images
+5. Complexité du layout et des animations

@@ -1,18 +1,18 @@
 # Theming and dynamic type
 
-## Intent
+## Intention
 
-Provide a clean, scalable theming approach that keeps view code semantic and consistent.
+Fournis une approche de theming propre et scalable qui garde le code de view sémantique et cohérent.
 
-## Core patterns
+## Patterns essentiels
 
-- Use a single `Theme` object as the source of truth (colors, fonts, spacing).
-- Inject theme at the app root and read it via `@Environment(Theme.self)` in views.
-- Prefer semantic colors (`primaryBackground`, `secondaryBackground`, `label`, `tint`) instead of raw colors.
-- Keep user-facing theme controls in a dedicated settings screen.
-- Apply Dynamic Type scaling through custom fonts or `.font(.scaled...)`.
+- Utilise un seul objet `Theme` comme source de vérité (couleurs, fonts, spacing).
+- Injecte le theme à la root de l'app et lis-le via `@Environment(Theme.self)` dans les views.
+- Privilégie des couleurs sémantiques (`primaryBackground`, `secondaryBackground`, `label`, `tint`) plutôt que des couleurs brutes.
+- Garde les controls de theme visibles par l'utilisateur dans un écran de settings dédié.
+- Applique le scaling Dynamic Type via des fonts custom ou `.font(.scaled...)`.
 
-## Example: Theme object
+## Exemple : objet Theme
 
 ```swift
 @MainActor
@@ -26,7 +26,7 @@ final class Theme {
 }
 ```
 
-## Example: inject at app root
+## Exemple : injection à la root de l'app
 
 ```swift
 @main
@@ -42,7 +42,7 @@ struct MyApp: App {
 }
 ```
 
-## Example: view usage
+## Exemple : usage dans une view
 
 ```swift
 struct ProfileView: View {
@@ -58,14 +58,14 @@ struct ProfileView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Keep theme values semantic and minimal; avoid duplicating system colors.
-- Store user-selected theme values in persistent storage if needed.
-- Ensure contrast between text and backgrounds.
+- Garde les valeurs de theme sémantiques et minimales ; évite de dupliquer les couleurs système.
+- Stocke les valeurs de theme choisies par l'utilisateur dans un stockage persistant si nécessaire.
+- Assure le contraste entre le texte et les backgrounds.
 
-## Pitfalls
+## Pièges
 
-- Avoid sprinkling raw `Color` values in views; it breaks consistency.
-- Do not tie theme to a single view’s local state.
-- Avoid using `@Environment(\\.colorScheme)` as the only theme control; it should complement your theme.
+- Évite de disperser des valeurs `Color` brutes dans les views ; ça casse la cohérence.
+- Ne lie pas le theme au state local d'une seule view.
+- Évite d'utiliser `@Environment(\\.colorScheme)` comme seul control de theme ; il doit compléter ton theme.

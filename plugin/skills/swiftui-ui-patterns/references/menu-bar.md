@@ -1,18 +1,18 @@
 # Menu Bar
 
-## Intent
+## Intention
 
-Use this when adding or customizing the macOS/iPadOS menu bar with SwiftUI commands.
+Utilise ce pattern pour ajouter ou personnaliser la menu bar macOS/iPadOS avec des commands SwiftUI.
 
-## Core patterns
+## Patterns essentiels
 
-- Add commands at the `Scene` level with `.commands { ... }`.
-- Use `SidebarCommands()` when your UI includes a navigation sidebar.
-- Use `CommandMenu` for app-specific menus and group related actions.
-- Use `CommandGroup` to insert items before/after system groups or replace them.
-- Use `FocusedValue` for context-sensitive menu items that depend on the active scene.
+- Ajoute les commands au niveau `Scene` avec `.commands { ... }`.
+- Utilise `SidebarCommands()` quand ton UI inclut une sidebar de navigation.
+- Utilise `CommandMenu` pour les menus spécifiques à l'app et pour grouper des actions liées.
+- Utilise `CommandGroup` pour insérer des items avant/après les groupes système ou les remplacer.
+- Utilise `FocusedValue` pour des items de menu contextuels qui dépendent de la scene active.
 
-## Example: basic command menu
+## Exemple : command menu basique
 
 ```swift
 @main
@@ -36,7 +36,7 @@ struct MyApp: App {
 }
 ```
 
-## Example: insert and replace groups
+## Exemple : insérer et remplacer des groupes
 
 ```swift
 WindowGroup {
@@ -57,7 +57,7 @@ WindowGroup {
 }
 ```
 
-## Example: focused menu state
+## Exemple : state de menu focused
 
 ```swift
 @Observable
@@ -90,12 +90,12 @@ struct ItemCommands: Commands {
 }
 ```
 
-## Menu bar and Settings
+## Menu bar et Settings
 
-- Defining a `Settings` scene adds the Settings menu item on macOS automatically.
-- If you need a custom entry point inside the app, use `OpenSettingsAction` or `SettingsLink`.
+- Définir une scene `Settings` ajoute automatiquement l'item de menu Settings sur macOS.
+- Si tu as besoin d'un point d'entrée custom dans l'app, utilise `OpenSettingsAction` ou `SettingsLink`.
 
-## Pitfalls
+## Pièges
 
-- Avoid registering the same keyboard shortcut in multiple command groups.
-- Don’t use menu items as the only discoverable entry point for critical features.
+- Évite d'enregistrer le même keyboard shortcut dans plusieurs command groups.
+- N'utilise pas les items de menu comme seul point d'entrée découvrable pour des fonctionnalités critiques.

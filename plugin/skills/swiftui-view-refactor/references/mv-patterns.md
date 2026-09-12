@@ -1,41 +1,41 @@
-# MV Patterns Reference
+# Référence des patterns MV
 
-Distilled guidance for deciding whether a SwiftUI feature should stay as plain MV or introduce a view model.
+Guidance condensée pour décider si une feature SwiftUI doit rester en MV pur ou introduire un view model.
 
-Inspired by the user's provided source, "SwiftUI in 2025: Forget MVVM" (Thomas Ricouard), but rewritten here as a practical refactoring reference.
+Inspiré de la source fournie par l'utilisateur, "SwiftUI in 2025: Forget MVVM" (Thomas Ricouard), mais réécrit ici comme référence pratique de refactoring.
 
-## Default stance
+## Position par défaut
 
-- Default to MV: views are lightweight state expressions and orchestration points.
-- Prefer `@State`, `@Environment`, `@Query`, `.task`, `.task(id:)`, and `onChange` before reaching for a view model.
-- Keep business logic in services, models, or domain types, not in the view body.
-- Split large screens into smaller view types before inventing a view model layer.
-- Avoid manual fetching or state plumbing that duplicates SwiftUI or SwiftData mechanisms.
-- Test services, models, and transformations first; views should stay simple and declarative.
+- Défaut sur MV : les views sont des expressions de state légères et des points d'orchestration.
+- Privilégie `@State`, `@Environment`, `@Query`, `.task`, `.task(id:)`, et `onChange` avant de recourir à un view model.
+- Garde la logique métier dans les services, modèles, ou types de domaine, pas dans le body de la view.
+- Découpe les gros écrans en types de view plus petits avant d'inventer une couche de view model.
+- Évite le fetching manuel ou la plomberie de state qui duplique les mécanismes de SwiftUI ou SwiftData.
+- Teste d'abord les services, modèles, et transformations ; les views doivent rester simples et déclaratives.
 
-## When to avoid a view model
+## Quand éviter un view model
 
-Do not introduce a view model when it would mostly:
-- mirror local view state,
-- wrap values already available through `@Environment`,
-- duplicate `@Query`, `@State`, or `Binding`-based data flow,
-- exist only because the view body is too long,
-- hold one-off async loading logic that can live in `.task` plus local view state.
+N'introduis pas de view model quand il ferait surtout :
+- refléter un state local de la view,
+- wrapper des valeurs déjà disponibles via `@Environment`,
+- dupliquer un data flow basé sur `@Query`, `@State`, ou `Binding`,
+- exister uniquement parce que le body de la view est trop long,
+- porter une logique de chargement async ponctuelle qui peut vivre dans `.task` plus un state local de la view.
 
-In these cases, simplify the view and data flow instead of adding indirection.
+Dans ces cas, simplifie la view et le data flow plutôt que d'ajouter de l'indirection.
 
-## When a view model may be justified
+## Quand un view model peut se justifier
 
-A view model can be reasonable when at least one of these is true:
-- the user explicitly asks for one,
-- the codebase already standardizes on a view model pattern for that feature,
-- the screen needs a long-lived reference model with behavior that does not fit naturally in services alone,
-- the feature is adapting a non-SwiftUI API that needs a dedicated bridge object,
-- multiple views share the same presentation-specific state and that state is not better modeled as app-level environment data.
+Un view model peut être raisonnable quand au moins une de ces conditions est vraie :
+- l'utilisateur en demande explicitement un,
+- le codebase standardise déjà un pattern de view model pour cette feature,
+- l'écran a besoin d'un reference model à longue durée de vie avec un comportement qui ne rentre pas naturellement dans les seuls services,
+- la feature adapte une API non-SwiftUI qui a besoin d'un objet de bridge dédié,
+- plusieurs views partagent le même state spécifique à la présentation et ce state n'est pas mieux modélisé comme donnée d'environment au niveau app.
 
-Even then, keep the view model small, explicit, and non-optional when possible.
+Même dans ces cas, garde le view model petit, explicite, et non-optionnel quand c'est possible.
 
-## Preferred pattern: local state plus environment
+## Pattern préféré : state local plus environment
 
 ```swift
 struct FeedView: View {
@@ -76,12 +76,12 @@ struct FeedView: View {
 }
 ```
 
-Why this is preferred:
-- state stays close to the UI that renders it,
-- dependencies come from the environment instead of a wrapper object,
-- the view coordinates UI flow while the service owns the real work.
+Pourquoi c'est préférable :
+- le state reste proche de l'UI qui le rend,
+- les dépendances viennent de l'environment plutôt que d'un objet wrapper,
+- la view coordonne le flux UI tandis que le service porte le vrai travail.
 
-## Preferred pattern: use modifiers as lightweight orchestration
+## Pattern préféré : utiliser les modifiers comme orchestration légère
 
 ```swift
 .task(id: searchText) {
@@ -98,13 +98,13 @@ Why this is preferred:
 }
 ```
 
-Use view lifecycle modifiers for simple, local orchestration. Do not convert these into a view model by default unless the behavior clearly outgrows the view.
+Utilise les modifiers de lifecycle de la view pour une orchestration simple et locale. Ne convertis pas cela en view model par défaut, sauf si le comportement dépasse clairement la view.
 
-## SwiftData note
+## Note sur SwiftData
 
-SwiftData is a strong argument for keeping data flow inside the view when possible.
+SwiftData est un argument fort pour garder le data flow à l'intérieur de la view quand c'est possible.
 
-Prefer:
+Préfère :
 
 ```swift
 struct BookListView: View {
@@ -126,36 +126,36 @@ struct BookListView: View {
 }
 ```
 
-Avoid adding a view model that manually fetches and mirrors the same state unless the feature has an explicit reason to do so.
+Évite d'ajouter un view model qui fetch et reflète manuellement le même state, sauf si la feature a une raison explicite de le faire.
 
-## Testing guidance
+## Guidance sur les tests
 
-Prefer to test:
-- services and business rules,
-- models and state transformations,
-- async workflows at the service layer,
-- UI behavior with previews or higher-level UI tests.
+Préfère tester :
+- les services et les règles métier,
+- les modèles et les transformations de state,
+- les workflows async au niveau de la couche service,
+- le comportement UI avec des previews ou des tests UI de plus haut niveau.
 
-Do not introduce a view model primarily to make a simple SwiftUI view "testable." That usually adds ceremony without improving the architecture.
+N'introduis pas de view model principalement pour rendre une view SwiftUI simple "testable". Cela ajoute généralement de la cérémonie sans améliorer l'architecture.
 
-## Refactor checklist
+## Checklist de refactor
 
-When refactoring toward MV:
-- Remove view models that only wrap environment dependencies or local view state.
-- Replace optional or delayed-initialized view models when plain view state is enough.
-- Pull business logic out of the view body and into services/models.
-- Keep the view as a thin coordinator of UI state, navigation, and user actions.
-- Split large bodies into smaller view types before adding new layers of indirection.
+Pour refactorer vers MV :
+- Retire les view models qui se contentent de wrapper des dépendances d'environment ou un state local de la view.
+- Remplace les view models optionnels ou à initialisation différée quand un simple state de view suffit.
+- Sors la logique métier du body de la view vers les services/modèles.
+- Garde la view comme un coordinateur léger du state UI, de la navigation, et des actions utilisateur.
+- Découpe les gros bodies en types de view plus petits avant d'ajouter de nouvelles couches d'indirection.
 
-## Bottom line
+## En résumé
 
-Treat view models as the exception, not the default.
+Traite les view models comme l'exception, pas le défaut.
 
-In modern SwiftUI, the default stack is:
-- `@State` for local state,
-- `@Environment` for shared dependencies,
-- `@Query` for SwiftData-backed collections,
-- lifecycle modifiers for lightweight orchestration,
-- services and models for business logic.
+Dans le SwiftUI moderne, la stack par défaut est :
+- `@State` pour le state local,
+- `@Environment` pour les dépendances partagées,
+- `@Query` pour les collections backées par SwiftData,
+- des lifecycle modifiers pour une orchestration légère,
+- des services et modèles pour la logique métier.
 
-Reach for a view model only when the feature clearly needs one.
+Ne recours à un view model que quand la feature en a clairement besoin.

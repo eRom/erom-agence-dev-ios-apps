@@ -1,17 +1,17 @@
 # Matched transitions
 
-## Intent
+## Intention
 
-Use matched transitions to create smooth continuity between a source view (thumbnail, avatar) and a destination view (sheet, detail, viewer).
+Utilise les matched transitions pour créer une continuité fluide entre une source (thumbnail, avatar) et une destination (sheet, detail, viewer).
 
-## Core patterns
+## Patterns essentiels
 
-- Use a shared `Namespace` and a stable ID for the source.
-- Use `matchedTransitionSource` + `navigationTransition(.zoom(...))` on iOS 26+.
-- Use `matchedGeometryEffect` for in-place transitions within a view hierarchy.
-- Keep IDs stable across view updates (avoid random UUIDs).
+- Utilise un `Namespace` partagé et un ID stable pour la source.
+- Utilise `matchedTransitionSource` + `navigationTransition(.zoom(...))` sur iOS 26+.
+- Utilise `matchedGeometryEffect` pour des transitions in-place au sein d'une même hiérarchie de views.
+- Garde les IDs stables entre les mises à jour de la view (évite les UUID aléatoires).
 
-## Example: media preview to full-screen viewer (iOS 26+)
+## Exemple : preview media vers un viewer full-screen (iOS 26+)
 
 ```swift
 struct MediaPreview: View {
@@ -29,7 +29,7 @@ struct MediaPreview: View {
 }
 ```
 
-## Example: matched geometry within a view
+## Exemple : matched geometry au sein d'une view
 
 ```swift
 struct ToggleBadge: View {
@@ -47,13 +47,13 @@ struct ToggleBadge: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Prefer `matchedTransitionSource` for cross-screen transitions.
-- Keep source and destination sizes reasonable to avoid jarring scale changes.
-- Use `withAnimation` for state-driven transitions.
+- Privilégie `matchedTransitionSource` pour les transitions cross-screen.
+- Garde des tailles source/destination raisonnables pour éviter des changements d'échelle brusques.
+- Utilise `withAnimation` pour les transitions pilotées par du state.
 
-## Pitfalls
+## Pièges
 
-- Don’t use unstable IDs; it breaks the transition.
-- Avoid mismatched shapes (e.g., square to circle) unless the design expects it.
+- N'utilise pas d'IDs instables : ça casse la transition.
+- Évite les formes non concordantes (carré vers cercle par exemple) sauf si le design l'attend explicitement.

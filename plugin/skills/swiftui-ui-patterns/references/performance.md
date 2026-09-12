@@ -1,18 +1,18 @@
 # Performance guardrails
 
-## Intent
+## Intention
 
-Use these rules when a SwiftUI screen is large, scroll-heavy, frequently updated, or at risk of unnecessary recomputation.
+Applique ces règles quand un écran SwiftUI est large, très scrollé, fréquemment mis à jour, ou à risque de recalculs inutiles.
 
-## Core rules
+## Règles essentielles
 
-- Give `ForEach` and list content stable identity. Do not use unstable indices as identity when the collection can reorder or mutate.
-- Keep expensive filtering, sorting, and formatting out of `body`; precompute or move it into a model/helper when it is not trivial.
-- Narrow observation scope so only the views that read changing state need to update.
-- Prefer lazy containers for larger scrolling content and extract subviews when only part of a screen changes frequently.
-- Avoid swapping entire top-level view trees for small state changes; keep a stable root view and vary localized sections or modifiers.
+- Donne à `ForEach` et au contenu de liste une identité stable. N'utilise pas des indices instables comme identité quand la collection peut se réordonner ou muter.
+- Garde le filtrage, le tri et le formatage coûteux hors du `body` ; précalcule-les ou déplace-les dans un model/helper quand ce n'est pas trivial.
+- Réduis la portée d'observation pour que seules les views qui lisent le state changeant se mettent à jour.
+- Privilégie les conteneurs lazy pour le contenu scrollable volumineux, et extrais des subviews quand seule une partie de l'écran change fréquemment.
+- Évite de remplacer des arbres de views top-level entiers pour de petits changements de state ; garde une root view stable et fais varier des sections ou modifiers localisés.
 
-## Example: stable identity
+## Exemple : identité stable
 
 ```swift
 ForEach(items) { item in
@@ -20,7 +20,7 @@ ForEach(items) { item in
 }
 ```
 
-Prefer that over index-based identity when the collection can change order:
+Préfère ça à une identité basée sur l'index quand la collection peut changer d'ordre :
 
 ```swift
 ForEach(Array(items.enumerated()), id: \.offset) { _, item in
@@ -28,7 +28,7 @@ ForEach(Array(items.enumerated()), id: \.offset) { _, item in
 }
 ```
 
-## Example: move expensive work out of body
+## Exemple : sortir le travail coûteux du body
 
 ```swift
 struct FeedView: View {
@@ -46,17 +46,17 @@ struct FeedView: View {
 }
 ```
 
-If the work is more expensive than a small derived property, move it into a model, store, or helper that updates less often.
+Si le travail est plus coûteux qu'une petite propriété dérivée, déplace-le dans un model, un store ou un helper qui se met à jour moins souvent.
 
-## When to investigate further
+## Quand creuser plus loin
 
-- Janky scrolling in long feeds or grids
-- Typing lag from search or form validation
-- Overly broad view updates when one small piece of state changes
-- Large screens with many conditionals or repeated formatting work
+- Scroll saccadé dans des feeds ou des grids longues
+- Lag de frappe dans une recherche ou une validation de formulaire
+- Mises à jour de view trop larges quand un seul petit bout de state change
+- Grands écrans avec beaucoup de conditionnels ou de formatage répété
 
-## Pitfalls
+## Pièges
 
-- Recomputing heavy transforms every render
-- Observing a large object from many descendants when only one field matters
-- Building custom scroll containers when `List`, `LazyVStack`, or `LazyHGrid` would already solve the problem
+- Recalculer des transformations lourdes à chaque render
+- Observer un gros objet depuis de nombreux descendants alors qu'un seul champ compte
+- Construire des conteneurs de scroll custom quand `List`, `LazyVStack` ou `LazyHGrid` résoudraient déjà le problème

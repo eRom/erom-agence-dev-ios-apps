@@ -1,15 +1,15 @@
 # Title menus
 
-## Intent
+## Intention
 
-Use a title menu in the navigation bar to provide context‑specific filtering or quick actions without adding extra chrome.
+Utilise un title menu dans la navigation bar pour fournir du filtrage contextuel ou des actions rapides sans ajouter de chrome supplémentaire.
 
-## Core patterns
+## Patterns essentiels
 
-- Use `ToolbarTitleMenu` to attach a menu to the navigation title.
-- Keep the menu content compact and grouped with dividers.
+- Utilise `ToolbarTitleMenu` pour attacher un menu au titre de navigation.
+- Garde le contenu du menu compact et groupé avec des dividers.
 
-## Example: title menu for filters
+## Exemple : title menu pour des filtres
 
 ```swift
 @ToolbarContentBuilder
@@ -24,7 +24,7 @@ private var toolbarView: some ToolbarContent {
 }
 ```
 
-## Example: attach to a view
+## Exemple : attacher à une view
 
 ```swift
 NavigationStack {
@@ -35,7 +35,7 @@ NavigationStack {
 }
 ```
 
-## Example: title + menu together
+## Exemple : titre + menu ensemble
 
 ```swift
 struct TimelineScreen: View {
@@ -67,7 +67,7 @@ struct TimelineScreen: View {
 }
 ```
 
-## Example: title + subtitle with menu
+## Exemple : titre + sous-titre avec menu
 
 ```swift
 ToolbarItem(placement: .principal) {
@@ -81,13 +81,13 @@ ToolbarItem(placement: .principal) {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Only show the title menu when filtering or context switching is available.
-- Keep the title readable; avoid long labels that truncate.
-- Use secondary text below the title if extra context is needed.
+- Affiche le title menu seulement quand le filtrage ou le changement de contexte est disponible.
+- Garde le titre lisible ; évite les labels longs qui tronquent.
+- Utilise du texte secondaire sous le titre si un contexte supplémentaire est nécessaire.
 
-## Pitfalls
+## Pièges
 
-- Don’t overload the menu with too many options.
-- Avoid using title menus for destructive actions.
+- Ne surcharge pas le menu avec trop d'options.
+- Évite d'utiliser les title menus pour des actions destructives.

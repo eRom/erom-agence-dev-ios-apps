@@ -1,26 +1,26 @@
 # Loading & Placeholders
 
-Use this when a view needs a consistent loading state (skeletons, redaction, empty state) without blocking interaction.
+Utilise ceci quand une view a besoin d'un état de loading cohérent (skeletons, redaction, empty state) sans bloquer l'interaction.
 
-## Patterns to prefer
+## Patterns à privilégier
 
-- **Redacted placeholders** for list/detail content to preserve layout while loading.
-- **ContentUnavailableView** for empty or error states after loading completes.
-- **ProgressView** only for short, global operations (use sparingly in content-heavy screens).
+- **Placeholders redacted** pour le contenu de list/detail, afin de préserver le layout pendant le chargement.
+- **ContentUnavailableView** pour les états vides ou d'erreur une fois le chargement terminé.
+- **ProgressView** uniquement pour des opérations courtes et globales (à utiliser avec parcimonie sur les écrans riches en contenu).
 
-## Recommended approach
+## Approche recommandée
 
-1. Keep the real layout, render placeholder data, then apply `.redacted(reason: .placeholder)`.
-2. For lists, show a fixed number of placeholder rows (avoid infinite spinners).
-3. Switch to `ContentUnavailableView` when load finishes but data is empty.
+1. Garde le layout réel, rends des placeholder data, puis applique `.redacted(reason: .placeholder)`.
+2. Pour les listes, affiche un nombre fixe de rows de placeholder (évite les spinners infinis).
+3. Passe à `ContentUnavailableView` quand le chargement se termine mais que les data sont vides.
 
-## Pitfalls
+## Pièges
 
-- Don’t animate layout shifts during redaction; keep frames stable.
-- Avoid nesting multiple spinners; use one loading indicator per section.
-- Keep placeholder count small (3–6) to reduce jank on low-end devices.
+- N'anime pas les décalages de layout pendant la redaction ; garde les frames stables.
+- Évite d'imbriquer plusieurs spinners ; utilise un seul indicateur de loading par section.
+- Garde le nombre de placeholders réduit (3 à 6) pour limiter le jank sur les appareils bas de gamme.
 
-## Minimal usage
+## Usage minimal
 
 ```swift
 VStack {

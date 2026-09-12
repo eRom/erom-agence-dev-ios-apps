@@ -1,17 +1,17 @@
-# Focus handling and field chaining
+# Gestion du focus et chaînage de champs
 
-## Intent
+## Intention
 
-Use `@FocusState` to control keyboard focus, chain fields, and coordinate focus across complex forms.
+Utilise `@FocusState` pour contrôler le focus clavier, chaîner les champs, et coordonner le focus dans des forms complexes.
 
-## Core patterns
+## Patterns essentiels
 
-- Use an enum to represent focusable fields.
-- Set initial focus in `onAppear`.
-- Use `.onSubmit` to move focus to the next field.
-- For dynamic lists of fields, use an enum with associated values (e.g., `.option(Int)`).
+- Utilise un enum pour représenter les champs focusables.
+- Fixe le focus initial dans `onAppear`.
+- Utilise `.onSubmit` pour déplacer le focus vers le champ suivant.
+- Pour des listes dynamiques de champs, utilise un enum avec des valeurs associées (par ex. `.option(Int)`).
 
-## Example: single field focus
+## Exemple : focus sur un seul champ
 
 ```swift
 struct AddServerView: View {
@@ -28,7 +28,7 @@ struct AddServerView: View {
 }
 ```
 
-## Example: chained focus with enum
+## Exemple : focus chaîné avec enum
 
 ```swift
 struct EditTagView: View {
@@ -50,7 +50,7 @@ struct EditTagView: View {
 }
 ```
 
-## Example: dynamic focus for variable fields
+## Exemple : focus dynamique pour des champs variables
 
 ```swift
 struct PollView: View {
@@ -78,13 +78,13 @@ struct PollView: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Keep focus state local to the view that owns the fields.
-- Use focus changes to drive UX (validation messages, helper UI).
-- Pair with `.scrollDismissesKeyboard(...)` when using ScrollView/Form.
+- Garde le state de focus local à la view qui possède les champs.
+- Utilise les changements de focus pour piloter l'UX (messages de validation, UI d'aide).
+- Associe avec `.scrollDismissesKeyboard(...)` quand tu utilises ScrollView/Form.
 
-## Pitfalls
+## Pièges
 
-- Don’t store focus state in shared objects; it is view-local.
-- Avoid aggressive focus changes during animation; delay if needed.
+- Ne stocke pas le state de focus dans des objets partagés ; il est local à la view.
+- Évite les changements de focus agressifs pendant une animation ; retarde-les si besoin.

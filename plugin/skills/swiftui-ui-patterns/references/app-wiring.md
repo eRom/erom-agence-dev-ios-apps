@@ -1,23 +1,23 @@
-# App wiring and dependency graph
+# Wiring de l'app et graphe de dépendances
 
-## Intent
+## Intention
 
-Show how to wire the app shell (TabView + NavigationStack + sheets) and install a global dependency graph (environment objects, services, streaming clients, SwiftData ModelContainer) in one place.
+Montrer comment brancher la coquille d'app (TabView + NavigationStack + sheets) et installer un graphe de dépendances global (environment objects, services, streaming clients, SwiftData ModelContainer) en un seul endroit.
 
-## Recommended structure
+## Structure recommandée
 
-1) Root view sets up tabs, per-tab routers, and sheets.
-2) A dedicated view modifier installs global dependencies and lifecycle tasks (auth state, streaming watchers, push tokens, data containers).
-3) Feature views pull only what they need from the environment; feature-specific state stays local.
+1) La root view met en place les tabs, les routers par tab, et les sheets.
+2) Un modifier dédié installe les dépendances globales et les tâches de lifecycle (état d'auth, watchers de streaming, push tokens, containers de data).
+3) Les feature views ne récupèrent depuis l'environment que ce dont elles ont besoin ; le state propre à une feature reste local.
 
-## Dependency selection
+## Choix des dépendances
 
-- Use `@Environment` for app-level services, shared clients, theme/configuration, and values that many descendants genuinely need.
-- Prefer initializer injection for feature-local dependencies and models. Do not move a dependency into the environment just to avoid passing one or two arguments.
-- Keep mutable feature state out of the environment unless it is intentionally shared across broad parts of the app.
-- Use `@EnvironmentObject` only as a legacy fallback or when the project already standardizes on it for a truly shared object.
+- Utilise `@Environment` pour les services au niveau de l'app, les clients partagés, le theme/la configuration, et les valeurs dont beaucoup de descendants ont réellement besoin.
+- Privilégie l'injection via initializer pour les dépendances et modèles propres à une feature. Ne déplace pas une dépendance dans l'environment juste pour éviter de passer un ou deux arguments.
+- Garde le state mutable d'une feature hors de l'environment, sauf s'il est intentionnellement partagé sur de larges parties de l'app.
+- Utilise `@EnvironmentObject` uniquement comme fallback legacy ou quand le projet le standardise déjà pour un objet réellement partagé.
 
-## Root shell example (generic)
+## Exemple de coquille racine (générique)
 
 ```swift
 @MainActor
@@ -46,7 +46,7 @@ struct AppView: View {
 }
 ```
 
-Minimal `AppTab` example:
+Exemple minimal d'`AppTab` :
 
 ```swift
 @MainActor
@@ -74,7 +74,7 @@ enum AppTab: Identifiable, Hashable, CaseIterable {
 }
 ```
 
-Router skeleton:
+Skeleton de router :
 
 ```swift
 @MainActor
@@ -89,9 +89,9 @@ enum Route: Hashable {
 }
 ```
 
-## Dependency graph modifier (generic)
+## Modifier du graphe de dépendances (générique)
 
-Use a single modifier to install environment objects and handle lifecycle hooks when the active account/client changes. This keeps wiring consistent and avoids forgetting a dependency in call sites.
+Utilise un seul modifier pour installer les environment objects et gérer les hooks de lifecycle quand le compte/client actif change. Cela garde le wiring cohérent et évite d'oublier une dépendance dans les call sites.
 
 ```swift
 extension View {
@@ -142,14 +142,14 @@ extension View {
 }
 ```
 
-Notes:
-- The `.task(id:)` hooks respond to account/client changes, re-seeding services and watcher state.
-- Keep the modifier focused on global wiring; feature-specific state stays within features.
-- Adjust types (AccountManager, StreamWatcher, etc.) to match your project.
+Notes :
+- Les hooks `.task(id:)` réagissent aux changements de compte/client, en réamorçant les services et le state du watcher.
+- Garde le modifier concentré sur le wiring global ; le state propre à une feature reste dans les features.
+- Ajuste les types (AccountManager, StreamWatcher, etc.) pour correspondre à ton projet.
 
 ## SwiftData / ModelContainer
 
-Install your `ModelContainer` at the root so all feature views share the same store. Keep the list minimal to the models that need persistence.
+Installe ton `ModelContainer` à la racine pour que toutes les feature views partagent le même store. Garde la liste réduite aux modèles qui ont besoin de persistence.
 
 ```swift
 extension View {
@@ -159,11 +159,11 @@ extension View {
 }
 ```
 
-Why: a single container avoids duplicated stores per sheet or tab and keeps data consistent.
+Pourquoi : un seul container évite des stores dupliqués par sheet ou par tab et garde les data cohérentes.
 
-## Sheet routing (enum-driven)
+## Routing des sheets (piloté par enum)
 
-Centralize sheets with a small enum and a helper modifier.
+Centralise les sheets avec un petit enum et un modifier helper.
 
 ```swift
 enum SheetDestination: Identifiable {
@@ -186,16 +186,16 @@ extension View {
 }
 ```
 
-Why: enum-driven sheets keep presentation centralized and testable; adding a new sheet means adding one enum case and one switch branch.
+Pourquoi : des sheets pilotées par enum gardent la présentation centralisée et testable ; ajouter une nouvelle sheet revient à ajouter un cas d'enum et une branche de switch.
 
-## When to use
+## Quand l'utiliser
 
-- Apps with multiple packages/modules that share environment objects and services.
-- Apps that need to react to account/client changes and rewire streaming/push safely.
-- Any app that wants consistent TabView + NavigationStack + sheet wiring without repeating environment setup.
+- Des apps avec plusieurs packages/modules qui partagent des environment objects et des services.
+- Des apps qui doivent réagir aux changements de compte/client et rebrancher le streaming/push en sécurité.
+- Toute app qui veut un wiring TabView + NavigationStack + sheet cohérent sans répéter le setup de l'environment.
 
-## Caveats
+## Points d'attention
 
-- Keep the dependency modifier slim; do not put feature state or heavy logic there.
-- Ensure `.task(id:)` work is lightweight or cancelled appropriately; long-running work belongs in services.
-- If unauthenticated clients exist, gate streaming/watch calls to avoid reconnect spam.
+- Garde le modifier de dépendances léger ; ne mets pas de state de feature ou de logique lourde là-dedans.
+- Assure-toi que le travail `.task(id:)` est léger ou annulé correctement ; le travail de longue durée doit rester dans les services.
+- Si des clients non authentifiés existent, verrouille les appels de streaming/watch pour éviter le spam de reconnexion.

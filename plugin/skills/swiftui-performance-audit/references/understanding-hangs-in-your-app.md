@@ -1,33 +1,33 @@
-# Understanding Hangs in Your App (Summary)
+# Understanding Hangs in Your App (Résumé)
 
-Context: Apple guidance on identifying hangs caused by long-running main-thread work and understanding the main run loop.
+Contexte : guidance Apple sur l'identification des hangs causés par un travail long sur le main thread, et sur la compréhension du main run loop.
 
-## Key concepts
+## Concepts clés
 
-- A hang is a noticeable delay in a discrete interaction (typically >100 ms).
-- Hangs almost always come from long-running work on the main thread.
-- The main run loop processes UI events, timers, and main-queue work sequentially.
+- Un hang est un délai perceptible dans une interaction discrète (typiquement >100 ms).
+- Les hangs viennent presque toujours d'un travail long sur le main thread.
+- Le main run loop traite séquentiellement les événements UI, les timers, et le travail sur la main queue.
 
-## Main-thread work stages
+## Étapes du travail sur le main thread
 
-- Event delivery to the correct view/handler.
-- Your code: state updates, data fetch, UI changes.
-- Core Animation commit to the render server.
+- Livraison de l'événement à la bonne view/au bon handler.
+- Ton code : mises à jour de state, récupération de données, changements d'UI.
+- Commit Core Animation vers le render server.
 
-## Why the main run loop matters
+## Pourquoi le main run loop compte
 
-- Only the main thread can update UI safely.
-- The run loop is the foundation that executes main-queue work.
-- If the run loop is busy, it can’t handle new events; this causes hangs.
+- Seul le main thread peut mettre à jour l'UI en toute sécurité.
+- Le run loop est le fondement qui exécute le travail de la main queue.
+- Si le run loop est occupé, il ne peut pas traiter de nouveaux événements ; cela cause des hangs.
 
-## Diagnosing hangs
+## Diagnostiquer les hangs
 
-- Observe the main run loop’s busy periods: healthy loops sleep most of the time.
-- Hang detection typically flags busy periods >250 ms.
-- The Hangs instrument can be configured to lower thresholds.
+- Observer les périodes d'activité du main run loop : un loop sain dort la plupart du temps.
+- La détection de hangs signale typiquement les périodes d'activité >250 ms.
+- L'instrument Hangs peut être configuré pour abaisser les seuils.
 
-## Practical takeaways
+## Points pratiques à retenir
 
-- Keep main-thread work short; offload heavy work from event handlers.
-- Avoid long-running tasks on the main dispatch queue or main actor.
-- Use run loop behavior as a proxy for user-perceived responsiveness.
+- Garder le travail sur le main thread court ; décharger le travail lourd des event handlers.
+- Éviter les tâches longues sur la main dispatch queue ou le main actor.
+- Utiliser le comportement du run loop comme indicateur de la réactivité perçue par l'utilisateur.

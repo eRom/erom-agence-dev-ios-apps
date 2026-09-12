@@ -1,18 +1,18 @@
 # NavigationStack
 
-## Intent
+## Intention
 
-Use this pattern for programmatic navigation and deep links, especially when each tab needs an independent navigation history. The key idea is one `NavigationStack` per tab, each with its own path binding and router object.
+Utilise ce pattern pour la navigation programmatique et les deep links, en particulier quand chaque tab a besoin d'un historique de navigation indépendant. L'idée clé : une `NavigationStack` par tab, chacune avec son propre path binding et son propre objet router.
 
-## Core architecture
+## Architecture essentielle
 
-- Define a route enum that is `Hashable` and represents all destinations.
-- Create a lightweight router (or use a library such as `https://github.com/Dimillian/AppRouter`) that owns the `path` and any sheet state.
-- Each tab owns its own router instance and binds `NavigationStack(path:)` to it.
-- Inject the router into the environment so child views can navigate programmatically.
-- Centralize destination mapping with a single `navigationDestination(for:)` block (or a `withAppRouter()` modifier).
+- Définis un enum de route qui est `Hashable` et qui représente toutes les destinations.
+- Crée un router léger (ou utilise une lib comme `https://github.com/Dimillian/AppRouter`) qui possède le `path` et tout state de sheet.
+- Chaque tab possède sa propre instance de router et bind `NavigationStack(path:)` à elle.
+- Injecte le router dans l'environment pour que les child views puissent naviguer de manière programmatique.
+- Centralise le mapping des destinations avec un seul bloc `navigationDestination(for:)` (ou un modifier `withAppRouter()`).
 
-## Example: custom router with per-tab stack
+## Exemple : router custom avec une stack par tab
 
 ```swift
 @MainActor
@@ -54,9 +54,9 @@ struct TimelineTab: View {
 }
 ```
 
-## Example: centralized destination mapping
+## Exemple : mapping de destinations centralisé
 
-Use a shared view modifier to avoid duplicating route switches across screens.
+Utilise un view modifier partagé pour éviter de dupliquer les switch de route à travers les écrans.
 
 ```swift
 extension View {
@@ -73,7 +73,7 @@ extension View {
 }
 ```
 
-Then apply it once per stack:
+Applique-le ensuite une fois par stack :
 
 ```swift
 NavigationStack(path: $routerPath.path) {
@@ -82,7 +82,7 @@ NavigationStack(path: $routerPath.path) {
 }
 ```
 
-## Example: binding per tab (tabs with independent history)
+## Exemple : binding par tab (tabs avec historique indépendant)
 
 ```swift
 @MainActor
@@ -99,9 +99,9 @@ struct TabsView: View {
 }
 ```
 
-## Example: generic tabs with per-tab NavigationStack
+## Exemple : tabs génériques avec une NavigationStack par tab
 
-Use this when tabs are built from data and each needs its own path without hard-coded names.
+Utilise ça quand les tabs sont construites depuis de la donnée et que chacune a besoin de son propre path sans nom codé en dur.
 
 ```swift
 @MainActor
@@ -142,18 +142,18 @@ final class TabRouter {
   }
 }
 
-## Design choices to keep
+## Choix de design à garder
 
-- One `NavigationStack` per tab to preserve independent history.
-- A single source of truth for navigation state (`RouterPath` or library router).
-- Use `navigationDestination(for:)` to map routes to views.
-- Reset the path when app context changes (account switch, logout, etc.).
-- Inject the router into the environment so child views can navigate and present sheets without prop-drilling.
-- Keep sheet presentation state on the router if you want a single place to manage modals.
+- Une `NavigationStack` par tab pour préserver un historique indépendant.
+- Une seule source de vérité pour le state de navigation (`RouterPath` ou router de lib).
+- Utilise `navigationDestination(for:)` pour mapper les routes vers les views.
+- Reset le path quand le contexte de l'app change (changement de compte, logout, etc.).
+- Injecte le router dans l'environment pour que les child views puissent naviguer et présenter des sheets sans prop-drilling.
+- Garde le state de présentation des sheets sur le router si tu veux un seul endroit pour gérer les modales.
 
-## Pitfalls
+## Pièges
 
-- Do not share one path across all tabs unless you want global history.
-- Ensure route identifiers are stable and `Hashable`.
-- Avoid storing view instances in the path; store lightweight route data instead.
-- If using a router object, keep it outside other `@Observable` objects to avoid nested observation.
+- Ne partage pas un seul path entre toutes les tabs, sauf si tu veux un historique global.
+- Assure-toi que les identifiants de route sont stables et `Hashable`.
+- Évite de stocker des instances de view dans le path ; stocke plutôt des données de route légères.
+- Si tu utilises un objet router, garde-le à l'écart des autres objets `@Observable` pour éviter l'observation imbriquée.

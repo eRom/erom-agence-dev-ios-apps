@@ -1,16 +1,16 @@
 # Haptics
 
-## Intent
+## Intention
 
-Use haptics sparingly to reinforce user actions (tab selection, refresh, success/error) and respect user preferences.
+Utilise les haptics avec parcimonie pour renforcer les actions utilisateur (sélection de tab, refresh, succès/erreur) et respecte les préférences de l'utilisateur.
 
-## Core patterns
+## Patterns essentiels
 
-- Centralize haptic triggers in a `HapticManager` or similar utility.
-- Gate haptics behind user preferences and hardware support.
-- Use distinct types for different UX moments (selection vs. notification vs. refresh).
+- Centralise les triggers haptiques dans un `HapticManager` ou un utilitaire équivalent.
+- Verrouille les haptics derrière les préférences utilisateur et le support matériel.
+- Utilise des types distincts pour différents moments UX (selection vs. notification vs. refresh).
 
-## Example: simple haptic manager
+## Exemple : haptic manager simple
 
 ```swift
 @MainActor
@@ -46,7 +46,7 @@ final class HapticManager {
 }
 ```
 
-## Example: usage
+## Exemple : usage
 
 ```swift
 Button("Save") {
@@ -59,13 +59,13 @@ TabView(selection: $selectedTab) { /* tabs */ }
   }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Haptics should be subtle and not fire on every tiny interaction.
-- Respect user preferences (toggle to disable).
-- Keep haptic triggers close to the user action, not deep in data layers.
+- Les haptics doivent être subtiles et ne pas se déclencher à chaque micro-interaction.
+- Respecte les préférences utilisateur (toggle pour désactiver).
+- Garde les triggers haptiques proches de l'action utilisateur, pas enfouis dans la couche data.
 
-## Pitfalls
+## Pièges
 
-- Avoid firing multiple haptics in quick succession.
-- Do not assume haptics are available; check support.
+- Évite de déclencher plusieurs haptics en succession rapide.
+- Ne présume pas que les haptics sont disponibles ; vérifie le support.

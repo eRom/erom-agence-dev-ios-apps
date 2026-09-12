@@ -1,17 +1,17 @@
-# Deep links and navigation
+# Deep links et navigation
 
-## Intent
+## Intention
 
-Route external URLs into in-app destinations while falling back to system handling when needed.
+Router les URL externes vers des destinations in-app, avec un fallback vers la gestion système quand nécessaire.
 
-## Core patterns
+## Patterns essentiels
 
-- Centralize URL handling in the router (`handle(url:)`, `handleDeepLink(url:)`).
-- Inject an `OpenURLAction` handler that delegates to the router.
-- Use `.onOpenURL` for app scheme links and convert them to web URLs if needed.
-- Let the router decide whether to navigate or open externally.
+- Centralise la gestion des URL dans le router (`handle(url:)`, `handleDeepLink(url:)`).
+- Injecte un handler `OpenURLAction` qui délègue au router.
+- Utilise `.onOpenURL` pour les liens de scheme de l'app, et convertis-les en URL web si nécessaire.
+- Laisse le router décider s'il faut naviguer ou ouvrir en externe.
 
-## Example: router entry points
+## Exemple : points d'entrée du router
 
 ```swift
 @MainActor
@@ -28,14 +28,14 @@ final class RouterPath {
   }
 
   func handleDeepLink(url: URL) -> OpenURLAction.Result {
-    // Resolve federated URLs, then navigate.
+    // Résout les URL fédérées, puis navigue.
     navigate(to: .status(id: url.lastPathComponent))
     return .handled
   }
 }
 ```
 
-## Example: attach to a root view
+## Exemple : attacher à une root view
 
 ```swift
 extension View {
@@ -54,13 +54,13 @@ extension View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Keep URL parsing and decision logic inside the router.
-- Avoid handling deep links in multiple places; one entry point is enough.
-- Always provide a fallback to `OpenURLAction` or `UIApplication.shared.open`.
+- Garde le parsing d'URL et la logique de décision à l'intérieur du router.
+- Évite de gérer les deep links en plusieurs endroits ; un seul point d'entrée suffit.
+- Prévois toujours un fallback vers `OpenURLAction` ou `UIApplication.shared.open`.
 
-## Pitfalls
+## Pièges
 
-- Don’t assume the URL is internal; validate first.
-- Avoid blocking UI while resolving remote links; use `Task`.
+- Ne présume pas que l'URL est interne ; valide d'abord.
+- Évite de bloquer l'UI en résolvant des liens distants ; utilise `Task`.

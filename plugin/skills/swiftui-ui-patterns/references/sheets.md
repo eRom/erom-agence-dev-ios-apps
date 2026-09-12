@@ -1,19 +1,19 @@
 # Sheets
 
-## Intent
+## Intention
 
-Use a centralized sheet routing pattern so any view can present modals without prop-drilling. This keeps sheet state in one place and scales as the app grows.
+Utilise un pattern de routing de sheets centralisé pour que n'importe quelle view puisse présenter des modales sans prop-drilling. Ça garde le state de sheet à un seul endroit et scale à mesure que l'app grandit.
 
-## Core architecture
+## Architecture essentielle
 
-- Define a `SheetDestination` enum that describes every modal and is `Identifiable`.
-- Store the current sheet in a router object (`presentedSheet: SheetDestination?`).
-- Create a view modifier like `withSheetDestinations(...)` that maps the enum to concrete sheet views.
-- Inject the router into the environment so child views can set `presentedSheet` directly.
+- Définis un enum `SheetDestination` qui décrit chaque modale et qui est `Identifiable`.
+- Stocke la sheet courante dans un objet router (`presentedSheet: SheetDestination?`).
+- Crée un view modifier comme `withSheetDestinations(...)` qui mappe l'enum vers des views de sheet concrètes.
+- Injecte le router dans l'environment pour que les child views puissent set `presentedSheet` directement.
 
-## Example: item-driven local sheet
+## Exemple : sheet locale pilotée par un item
 
-Use this when sheet state is local to one screen and does not need centralized routing.
+Utilise ça quand le state de sheet est local à un seul écran et n'a pas besoin de routing centralisé.
 
 ```swift
 @State private var selectedItem: Item?
@@ -23,7 +23,7 @@ Use this when sheet state is local to one screen and does not need centralized r
 }
 ```
 
-## Example: SheetDestination enum
+## Exemple : enum SheetDestination
 
 ```swift
 enum SheetDestination: Identifiable, Hashable {
@@ -35,7 +35,7 @@ enum SheetDestination: Identifiable, Hashable {
   var id: String {
     switch self {
     case .composer, .editProfile:
-      // Use the same id to ensure only one editor-like sheet is active at a time.
+      // Utilise le même id pour garantir qu'une seule sheet de type éditeur est active à la fois.
       return "editor"
     case .settings:
       return "settings"
@@ -46,7 +46,7 @@ enum SheetDestination: Identifiable, Hashable {
 }
 ```
 
-## Example: withSheetDestinations modifier
+## Exemple : modifier withSheetDestinations
 
 ```swift
 extension View {
@@ -71,7 +71,7 @@ extension View {
 }
 ```
 
-## Example: presenting from a child view
+## Exemple : présentation depuis une child view
 
 ```swift
 struct StatusRow: View {
@@ -85,18 +85,18 @@ struct StatusRow: View {
 }
 ```
 
-## Required wiring
+## Wiring requis
 
-For the child view to work, a parent view must:
-- own the router instance,
-- attach `withSheetDestinations(sheet: $router.presentedSheet)` (or an equivalent `sheet(item:)` handler), and
-- inject it with `.environment(router)` after the sheet modifier so the modal content inherits it.
+Pour que la child view fonctionne, une parent view doit :
+- posséder l'instance du router,
+- attacher `withSheetDestinations(sheet: $router.presentedSheet)` (ou un handler `sheet(item:)` équivalent), et
+- l'injecter avec `.environment(router)` après le sheet modifier pour que le contenu de la modale en hérite.
 
-This makes the child assignment to `router.presentedSheet` drive presentation at the root.
+Ça permet à l'assignation de la child view à `router.presentedSheet` de piloter la présentation depuis la root.
 
-## Example: sheets that need their own navigation
+## Exemple : sheets qui ont besoin de leur propre navigation
 
-Wrap sheet content in a `NavigationStack` so it can push within the modal.
+Enveloppe le contenu de la sheet dans une `NavigationStack` pour qu'elle puisse push à l'intérieur de la modale.
 
 ```swift
 struct NavigationSheet<Content: View>: View {
@@ -111,9 +111,9 @@ struct NavigationSheet<Content: View>: View {
 }
 ```
 
-## Example: sheet owns its actions
+## Exemple : la sheet possède ses actions
 
-Keep dismissal and confirmation logic inside the sheet when the actions belong to the modal itself.
+Garde la logique de dismissal et de confirmation à l'intérieur de la sheet quand les actions appartiennent à la modale elle-même.
 
 ```swift
 struct EditItemSheet: View {
@@ -139,17 +139,17 @@ struct EditItemSheet: View {
 }
 ```
 
-## Design choices to keep
+## Choix de design à garder
 
-- Centralize sheet routing so features can present modals without wiring bindings through many layers.
-- Use `sheet(item:)` to guarantee a single sheet is active and to drive presentation from the enum.
-- Group related sheets under the same `id` when they are mutually exclusive (e.g., editor flows).
-- Keep sheet views lightweight and composed from smaller views; avoid large monoliths.
-- Let sheets own their actions and call `dismiss()` internally instead of forwarding `onCancel` or `onConfirm` closures through many layers.
+- Centralise le routing des sheets pour que les features puissent présenter des modales sans faire transiter des bindings à travers de nombreuses couches.
+- Utilise `sheet(item:)` pour garantir qu'une seule sheet est active et pour piloter la présentation depuis l'enum.
+- Groupe les sheets liées sous le même `id` quand elles sont mutuellement exclusives (par exemple les flows d'édition).
+- Garde les views de sheet légères et composées de views plus petites ; évite les gros monolithes.
+- Laisse les sheets posséder leurs actions et appeler `dismiss()` en interne plutôt que de faire transiter des closures `onCancel` ou `onConfirm` à travers de nombreuses couches.
 
-## Pitfalls
+## Pièges
 
-- Avoid mixing `sheet(isPresented:)` and `sheet(item:)` for the same concern; prefer a single enum.
-- Avoid `if let` inside a sheet body when the presentation state already carries the selected model; prefer `sheet(item:)`.
-- Do not store heavy state inside `SheetDestination`; pass lightweight identifiers or models.
-- If multiple sheets can appear from the same screen, give them distinct `id` values.
+- Évite de mélanger `sheet(isPresented:)` et `sheet(item:)` pour la même préoccupation ; privilégie un seul enum.
+- Évite un `if let` à l'intérieur d'un body de sheet quand le state de présentation porte déjà le modèle sélectionné ; privilégie `sheet(item:)`.
+- Ne stocke pas de state lourd dans `SheetDestination` ; passe des identifiants ou des modèles légers.
+- Si plusieurs sheets peuvent apparaître depuis le même écran, donne-leur des valeurs `id` distinctes.

@@ -1,8 +1,8 @@
-# Code templates
+# Templates de code
 
-These templates are intentionally generic. Rename types and services to fit the app.
+Ces templates sont volontairement génériques. Renomme les types et services pour les adapter à ton app.
 
-## Open-app handoff intent
+## Intent de handoff open-app
 
 ```swift
 import AppIntents
@@ -27,7 +27,7 @@ struct OpenComposerIntent: AppIntent {
 }
 ```
 
-Scene-side handoff:
+Handoff côté scène :
 
 ```swift
 import AppIntents
@@ -61,7 +61,7 @@ private func handleIntent() {
 }
 ```
 
-## Inline action intent
+## Intent d'action inline
 
 ```swift
 import AppIntents
@@ -88,7 +88,7 @@ struct CreateItemIntent: AppIntent {
 }
 ```
 
-## Fixed selection with `AppEnum`
+## Sélection fixe avec `AppEnum`
 
 ```swift
 import AppIntents
@@ -134,7 +134,7 @@ struct OpenSectionIntent: AppIntent {
 }
 ```
 
-## Entity and query
+## Entity et query
 
 ```swift
 import AppIntents
@@ -169,7 +169,7 @@ struct WorkspaceQuery: EntityQuery {
 }
 ```
 
-## Dependent query
+## Query dépendante
 
 ```swift
 import AppIntents
@@ -220,7 +220,7 @@ struct ProjectQuery: EntityQuery {
 }
 ```
 
-## Widget configuration intent
+## Intent de configuration de widget
 
 ```swift
 import AppIntents
@@ -268,7 +268,7 @@ struct AppShortcuts: AppShortcutsProvider {
 }
 ```
 
-## Inline file input
+## Entrée fichier inline
 
 ```swift
 import AppIntents
@@ -301,3 +301,4 @@ struct ImportAttachmentIntent: AppIntent {
   }
 }
 ```
+</content>

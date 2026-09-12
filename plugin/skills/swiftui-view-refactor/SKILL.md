@@ -1,41 +1,41 @@
 ---
 name: swiftui-view-refactor
-description: Refactor SwiftUI view files into stable, testable structure. Use when splitting large views, tightening data flow, or cleaning Observation ownership.
+description: "Refactore des fichiers de view SwiftUI vers une structure stable et testable. À utiliser pour découper de grosses views, resserrer le data flow, ou nettoyer l'ownership d'Observation."
 ---
 
 # SwiftUI View Refactor
 
-## Overview
-Refactor SwiftUI views toward small, explicit, stable view types. Default to vanilla SwiftUI: local state in the view, shared dependencies in the environment, business logic in services/models, and view models only when the request or existing code clearly requires one.
+## Vue d'ensemble
+Refactore les views SwiftUI vers des types de view petits, explicites et stables. Défaut sur du SwiftUI vanilla : state local dans la view, dépendances partagées dans l'environment, logique métier dans les services/modèles, et view models uniquement quand la demande ou le code existant l'exige clairement.
 
-## Core Guidelines
+## Directives fondamentales
 
-### 1) View ordering (top → bottom)
-- Enforce this ordering unless the existing file has a stronger local convention you must preserve.
+### 1) Ordre des éléments de la view (haut → bas)
+- Impose cet ordre, sauf si le fichier existant a une convention locale plus forte à préserver.
 - Environment
 - `private`/`public` `let`
-- `@State` / other stored properties
+- `@State` / autres stored properties
 - computed `var` (non-view)
 - `init`
 - `body`
-- computed view builders / other view helpers
-- helper / async functions
+- computed view builders / autres helpers de view
+- fonctions helper / async
 
-### 2) Default to MV, not MVVM
-- Views should be lightweight state expressions and orchestration points, not containers for business logic.
-- Favor `@State`, `@Environment`, `@Query`, `.task`, `.task(id:)`, and `onChange` before reaching for a view model.
-- Inject services and shared models via `@Environment`; keep domain logic in services/models, not in the view body.
-- Do not introduce a view model just to mirror local view state or wrap environment dependencies.
-- If a screen is getting large, split the UI into subviews before inventing a new view model layer.
+### 2) Défaut sur MV, pas MVVM
+- Les views doivent être des expressions de state légères et des points d'orchestration, pas des conteneurs de logique métier.
+- Privilégie `@State`, `@Environment`, `@Query`, `.task`, `.task(id:)`, et `onChange` avant de recourir à un view model.
+- Injecte les services et modèles partagés via `@Environment` ; garde la logique de domaine dans les services/modèles, pas dans le body de la view.
+- N'introduis pas de view model juste pour refléter un state local de la view ou wrapper des dépendances d'environment.
+- Si un écran devient gros, découpe l'UI en subviews avant d'inventer une nouvelle couche de view model.
 
-### 3) Strongly prefer dedicated subview types over computed `some View` helpers
-- Flag `body` properties that are longer than roughly one screen or contain multiple logical sections.
-- Prefer extracting dedicated `View` types for non-trivial sections, especially when they have state, async work, branching, or deserve their own preview.
-- Keep computed `some View` helpers rare and small. Do not build an entire screen out of `private var header: some View`-style fragments.
-- Pass small, explicit inputs (data, bindings, callbacks) into extracted subviews instead of handing down the entire parent state.
-- If an extracted subview becomes reusable or independently meaningful, move it to its own file.
+### 3) Préfère fortement des types de subview dédiés aux helpers `some View` calculés
+- Signale les propriétés `body` plus longues qu'environ un écran, ou qui contiennent plusieurs sections logiques.
+- Préfère extraire des types `View` dédiés pour les sections non triviales, surtout quand elles ont du state, du travail async, du branching, ou méritent leur propre preview.
+- Garde les helpers `some View` calculés rares et petits. Ne construis pas un écran entier à partir de fragments façon `private var header: some View`.
+- Passe des inputs petits et explicites (données, bindings, callbacks) aux subviews extraites, plutôt que de leur transmettre tout le state du parent.
+- Si une subview extraite devient réutilisable ou porte un sens propre, déplace-la dans son propre fichier.
 
-Prefer:
+Préfère :
 
 ```swift
 var body: some View {
@@ -79,7 +79,7 @@ private struct FilterSection: View {
 }
 ```
 
-Avoid:
+Évite :
 
 ```swift
 var body: some View {
@@ -99,11 +99,11 @@ private var header: some View {
 }
 ```
 
-### 3b) Extract actions and side effects out of `body`
-- Do not keep non-trivial button actions inline in the view body.
-- Do not bury business logic inside `.task`, `.onAppear`, `.onChange`, or `.refreshable`.
-- Prefer calling small private methods from the view, and move real business logic into services/models.
-- The body should read like UI, not like a view controller.
+### 3b) Extrais les actions et effets de bord hors de `body`
+- Ne garde pas d'actions de bouton non triviales inline dans le body de la view.
+- N'enfouis pas de logique métier dans `.task`, `.onAppear`, `.onChange`, ou `.refreshable`.
+- Préfère appeler de petites méthodes privées depuis la view, et déplace la vraie logique métier dans les services/modèles.
+- Le body doit se lire comme de l'UI, pas comme un view controller.
 
 ```swift
 Button("Save", action: save)
@@ -126,12 +126,12 @@ private func reload(for searchText: String) async {
 }
 ```
 
-### 4) Keep a stable view tree (avoid top-level conditional view swapping)
-- Avoid `body` or computed views that return completely different root branches via `if/else`.
-- Prefer a single stable base view with conditions inside sections/modifiers (`overlay`, `opacity`, `disabled`, `toolbar`, etc.).
-- Root-level branch swapping causes identity churn, broader invalidation, and extra recomputation.
+### 4) Garde un view tree stable (évite la permutation conditionnelle de view au niveau racine)
+- Évite les `body` ou computed views qui retournent des branches racines complètement différentes via `if/else`.
+- Préfère une seule base view stable avec des conditions à l'intérieur des sections/modifiers (`overlay`, `opacity`, `disabled`, `toolbar`, etc.).
+- Le branch swapping au niveau racine cause du churn d'identity, une invalidation plus large, et du recalcul supplémentaire.
 
-Prefer:
+Préfère :
 
 ```swift
 var body: some View {
@@ -146,7 +146,7 @@ var body: some View {
 }
 ```
 
-Avoid:
+Évite :
 
 ```swift
 var documentsListView: some View {
@@ -158,14 +158,14 @@ var documentsListView: some View {
 }
 ```
 
-### 5) View model handling (only if already present or explicitly requested)
-- Treat view models as a legacy or explicit-need pattern, not the default.
-- Do not introduce a view model unless the request or existing code clearly calls for one.
-- If a view model exists, make it non-optional when possible.
-- Pass dependencies to the view via `init`, then create the view model in the view's `init`.
-- Avoid `bootstrapIfNeeded` patterns and other delayed setup workarounds.
+### 5) Gestion du view model (uniquement si déjà présent ou explicitement demandé)
+- Traite les view models comme un pattern legacy ou de besoin explicite, pas comme le défaut.
+- N'introduis pas de view model sauf si la demande ou le code existant l'exige clairement.
+- Si un view model existe, rends-le non-optionnel quand c'est possible.
+- Passe les dépendances à la view via `init`, puis crée le view model dans l'`init` de la view.
+- Évite les patterns `bootstrapIfNeeded` et autres contournements de setup différé.
 
-Example (Observation-based):
+Exemple (basé sur Observation) :
 
 ```swift
 @State private var viewModel: SomeViewModel
@@ -175,29 +175,29 @@ init(dependency: Dependency) {
 }
 ```
 
-### 6) Observation usage
-- For `@Observable` reference types on iOS 17+, store them as `@State` in the owning view.
-- Pass observables down explicitly; avoid optional state unless the UI genuinely needs it.
-- If the deployment target includes iOS 16 or earlier, use `@StateObject` at the owner and `@ObservedObject` when injecting legacy observable models.
+### 6) Usage d'Observation
+- Pour les reference types `@Observable` sur iOS 17+, stocke-les comme `@State` dans la view propriétaire.
+- Passe les observables explicitement en aval ; évite le state optionnel sauf si l'UI en a réellement besoin.
+- Si la cible de déploiement inclut iOS 16 ou antérieur, utilise `@StateObject` chez le propriétaire et `@ObservedObject` lors de l'injection de modèles observables legacy.
 
 ## Workflow
 
-1. Reorder the view to match the ordering rules.
-2. Remove inline actions and side effects from `body`; move business logic into services/models and keep only thin orchestration in the view.
-3. Shorten long bodies by extracting dedicated subview types; avoid rebuilding the screen out of many computed `some View` helpers.
-4. Ensure stable view structure: avoid top-level `if`-based branch swapping; move conditions to localized sections/modifiers.
-5. If a view model exists or is explicitly required, replace optional view models with a non-optional `@State` view model initialized in `init`.
-6. Confirm Observation usage: `@State` for root `@Observable` models on iOS 17+, legacy wrappers only when the deployment target requires them.
-7. Keep behavior intact: do not change layout or business logic unless requested.
+1. Réordonne la view pour respecter les règles d'ordre.
+2. Retire les actions et effets de bord inline de `body` ; déplace la logique métier dans les services/modèles et ne garde qu'une orchestration légère dans la view.
+3. Raccourcis les bodies longs en extrayant des types de subview dédiés ; évite de reconstruire l'écran à partir de nombreux helpers `some View` calculés.
+4. Assure une structure de view stable : évite le branch swapping via `if` au niveau racine ; déplace les conditions vers des sections/modifiers localisés.
+5. Si un view model existe ou est explicitement requis, remplace les view models optionnels par un view model `@State` non-optionnel initialisé dans `init`.
+6. Confirme l'usage d'Observation : `@State` pour les modèles `@Observable` racines sur iOS 17+, wrappers legacy uniquement quand la cible de déploiement l'exige.
+7. Garde le comportement intact : ne change pas le layout ou la logique métier sauf demande explicite.
 
 ## Notes
 
-- Prefer small, explicit view types over large conditional blocks and large computed `some View` properties.
-- Keep computed view builders below `body` and non-view computed vars above `init`.
-- A good SwiftUI refactor should make the view read top-to-bottom as data flow plus layout, not as mixed layout and imperative logic.
-- For MV-first guidance and rationale, see `references/mv-patterns.md`.
-- In addition to the references above, use web search to consult current Apple Developer documentation when SwiftUI APIs, Observation behavior, or platform guidance may have changed.
+- Préfère des types de view petits et explicites aux gros blocs conditionnels et aux grosses propriétés `some View` calculées.
+- Garde les computed view builders sous `body` et les computed vars non-view au-dessus de `init`.
+- Un bon refactor SwiftUI doit faire lire la view de haut en bas comme du data flow plus du layout, pas comme du layout mélangé à de la logique impérative.
+- Pour la guidance et le raisonnement MV-first, voir `references/mv-patterns.md`.
+- En complément des références ci-dessus, utilise une recherche web pour consulter la documentation Apple Developer actuelle quand les API SwiftUI, le comportement d'Observation, ou les recommandations de plateforme ont pu changer.
 
-## Large-view handling
+## Gestion des grosses views
 
-When a SwiftUI view file exceeds ~300 lines, split it aggressively. Extract meaningful sections into dedicated `View` types instead of hiding complexity in many computed properties. Use `private` extensions with `// MARK: -` comments for actions and helpers, but do not treat extensions as a substitute for breaking a giant screen into smaller view types. If an extracted subview is reused or independently meaningful, move it into its own file.
+Quand un fichier de view SwiftUI dépasse environ 300 lignes, découpe-le agressivement. Extrais les sections significatives en types `View` dédiés plutôt que de cacher la complexité dans de nombreuses computed properties. Utilise des extensions `private` avec des commentaires `// MARK: -` pour les actions et les helpers, mais ne traite pas les extensions comme un substitut au découpage d'un écran géant en types de view plus petits. Si une subview extraite est réutilisée ou porte un sens propre, déplace-la dans son propre fichier.
