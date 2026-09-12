@@ -97,5 +97,5 @@ voit 9 skills et 1 serveur MCP, ~778 tok always-on.
 | `plugin/.mcp.json` | `bunx xcodebuildmcp@2.7.0 mcp`, vu « Connected » par `claude --plugin-dir plugin mcp list` le 2026-09-12. `npx -y xcodebuildmcp@latest` échouait (CONNECTION_CLOSED), le workflow `logging` n'existe pas en 2.7.0 |
 | Runtimes du Simulator | aucun installé sur la machine (`xcrun simctl runtime list` : 0 image disque), rien de ce qui touche au simulateur ne peut tourner |
 | Keywords du manifeste | remplis |
-| Image de tête | placeholder, `/erom-dev-plugin:illustrate` pas lancé |
+| Image de tête | `assets/erom-dev-ios-apps.png`, 1536x1024, tirée le 2026-09-12 par `/erom-dev-plugin:illustrate` (mur d'outils d'horloger), puis un iPhone ajouté sur l'établi par `gpt_image_edit` à la demande de Romain (écran noir, sans logo). Textes vérifiés au zoom après l'édition |
 | Publication marketplace | non faite |

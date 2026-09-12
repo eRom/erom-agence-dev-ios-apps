@@ -1,4 +1,4 @@
-![erom-dev-ios-apps](assets/plugin.png)
+![erom-dev-ios-apps](assets/erom-dev-ios-apps.png)
 
 # erom-dev-ios-apps
 
