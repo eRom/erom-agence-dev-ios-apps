@@ -67,7 +67,7 @@ C'est la seule preuve que le manifeste charge ce qu'on croit : un dossier
 
 ## Publication
 
-Non publié à ce jour. La publication ne se fait pas à la main : la skill `release`
+Publié dans `erom-marketplace` depuis la 0.1.0 (2026-09-12), dépôt GitHub public. La publication ne se fait pas à la main : la skill `release`
 du plugin `erom-dev-plugin` la porte de bout en bout, depuis ce dépôt.
 
 ```
@@ -98,4 +98,4 @@ voit 9 skills et 1 serveur MCP, ~778 tok always-on.
 | Runtimes du Simulator | aucun installé sur la machine (`xcrun simctl runtime list` : 0 image disque), rien de ce qui touche au simulateur ne peut tourner |
 | Keywords du manifeste | remplis |
 | Image de tête | `assets/erom-dev-ios-apps.png`, 1536x1024, tirée le 2026-09-12 par `/erom-dev-plugin:illustrate` (mur d'outils d'horloger), puis un iPhone ajouté sur l'établi par `gpt_image_edit` à la demande de Romain (écran noir, sans logo). Textes vérifiés au zoom après l'édition |
-| Publication marketplace | non faite |
+| Publication marketplace | 0.1.0 publiée le 2026-09-12 (`git-subdir`, `strict: true`), dépôt passé en public le même jour |
