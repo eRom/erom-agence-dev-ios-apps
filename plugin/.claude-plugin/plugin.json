@@ -1,0 +1,27 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "erom-dev-ios-apps",
+  "description": "Concevoir, déboguer et profiler des apps iOS natives en SwiftUI : App Intents et App Shortcuts, Liquid Glass d'iOS 26, patterns et refactor de vues, audit de performance, traces ETTrace, memgraphs de fuites mémoire, débogage sur simulateur via XcodeBuildMCP et miroir du Simulator dans le navigateur.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Romain Ecarnot",
+    "url": "https://github.com/eRom"
+  },
+  "repository": "https://github.com/eRom/erom-agence-dev-ios-apps",
+  "license": "MIT",
+  "keywords": [
+    "ios",
+    "swiftui",
+    "xcode",
+    "simulator",
+    "app-intents",
+    "liquid-glass",
+    "performance",
+    "profiling",
+    "ettrace",
+    "memgraph",
+    "debugging",
+    "xcodebuildmcp"
+  ],
+  "skills": "./skills/"
+}
