@@ -85,17 +85,16 @@ le moment de les préparer, pas avant.
 
 ## État actuel - 2026-09-12
 
-Dépôt scaffoldé, aucune skill écrite. `claude plugin details` voit 0 composant.
+Les 9 skills de la source sont copiées telles quelles. `claude plugin details`
+voit 9 skills et 1 serveur MCP, ~778 tok always-on.
 
 | Élément | État |
 |---|---|
-| `plugin/skills/` | vide |
-| `plugin/.mcp.json` | absent, voulu (invariant 8) |
+| `plugin/skills/` | 9 skills. `ios-simulator-browser` réécrite en français le 2026-09-12 ; les 8 autres encore en anglais : écart à l'invariant 2 |
+| `ios-simulator-browser` | portée vers le Browser pane de Desktop (`.claude/launch.json`, `bunx serve-sim@0.1.46`, `autoPort: false`). Sources : doc Desktop, README serve-sim (section « Claude Code Desktop »), `dist/serve-sim.js` 0.1.46 qui ne lit que `--port`. Voie CLI testée le 2026-09-12 sur iPhone 17 Pro / iOS 26.5 : preview sur 3200, image en direct dans Chrome, `tap` et `button home` reçus (`event-log`). Voie Desktop (Browser pane) pas encore testée |
+| Traces Codex | restent dans `ios-ettrace-performance` (`write_stdin`) et les préfixes `codex-` de `mktemp` de deux skills : écart à l'invariant 7 |
+| `plugin/.mcp.json` | `bunx xcodebuildmcp@2.7.0 mcp`, vu « Connected » par `claude --plugin-dir plugin mcp list` le 2026-09-12. `npx -y xcodebuildmcp@latest` échouait (CONNECTION_CLOSED), le workflow `logging` n'existe pas en 2.7.0 |
+| Runtimes du Simulator | aucun installé sur la machine (`xcrun simctl runtime list` : 0 image disque), rien de ce qui touche au simulateur ne peut tourner |
 | Keywords du manifeste | remplis |
 | Image de tête | placeholder, `/erom-dev-plugin:illustrate` pas lancé |
 | Publication marketplace | non faite |
-
-Skills prévues, à porter depuis la source (toutes non écrites) :
-`ios-debugger-agent`, `ios-simulator-browser`, `ios-ettrace-performance`,
-`ios-memgraph-leaks`, `ios-app-intents`, `swiftui-liquid-glass`,
-`swiftui-performance-audit`, `swiftui-ui-patterns`, `swiftui-view-refactor`.
